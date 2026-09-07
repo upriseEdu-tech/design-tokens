@@ -1,0 +1,32 @@
+{
+  "name": "@upriseedu/design-tokens",
+  "version": "0.1.0",
+  "description": "The design tokens the Uprise apps share. Data only — no runtime dependencies, nothing that knows its host.",
+  "license": "UNLICENSED",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/cjs/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/cjs/index.d.ts",
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js"
+    }
+  },
+  "files": ["dist"],
+  "sideEffects": false,
+  "scripts": {
+    "build": "rm -rf dist && tsc -p tsconfig.cjs.json && tsc -p tsconfig.esm.json",
+    "prepublishOnly": "npm run build"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/upriseEdu-tech/design-tokens.git"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3"
+  }
+}
