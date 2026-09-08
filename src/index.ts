@@ -11,3 +11,4 @@
  * places.
  */
 export { Colors, rebrandScreenCanvas, androidElevatedCardSurface } from './colors';
+export { SharedHomeTokens } from './home';
