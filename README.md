@@ -1,4 +1,4 @@
-# @upriseedu/design-tokens
+# @upriseedu-tech/design-tokens
 
 The design tokens the Uprise apps share: `teacher`, `mobile` and `dashboard`.
 
@@ -25,10 +25,10 @@ and one Vite build; a dependency here is a version conflict in three places.
 ## Consuming it
 
 ```
-@upriseedu:registry=https://npm.pkg.github.com
+@upriseedu-tech:registry=https://npm.pkg.github.com
 ```
 
-in the app's `.npmrc`, then `npm install @upriseedu/design-tokens`.
+in the app's `.npmrc`, then `npm install @upriseedu-tech/design-tokens`.
 
 **Both RN apps need `--legacy-peer-deps`** on any install: they carry a
 pre-existing ESLint 10 peer conflict that predates this package and also breaks
