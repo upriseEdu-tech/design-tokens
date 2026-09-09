@@ -1,6 +1,6 @@
 {
   "name": "@upriseedu-tech/design-tokens",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "The design tokens the Uprise apps share. Data only — no runtime dependencies, nothing that knows its host.",
   "license": "UNLICENSED",
   "main": "dist/cjs/index.js",
@@ -14,7 +14,8 @@
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "bin"
   ],
   "sideEffects": false,
   "scripts": {
@@ -30,5 +31,8 @@
   },
   "devDependencies": {
     "typescript": "5.9.3"
+  },
+  "bin": {
+    "check-token-drift": "bin/check-token-drift.js"
   }
 }

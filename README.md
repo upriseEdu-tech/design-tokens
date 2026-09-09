@@ -44,3 +44,23 @@ pre-existing ESLint 10 peer conflict that predates this package and also breaks
 A value lives here or in exactly one app, never in both. Each app has a drift
 check that fails when a colour literal duplicates a token — see the shared
 tokens plan in `teacher/docs/superpowers/plans/`.
+
+## check-token-drift
+
+Ships as a bin. Each app runs it over its own `src/` and fails when a colour
+literal duplicates a brand value this package exports:
+
+```sh
+check-token-drift src [--allow <path fragment>]...
+```
+
+Bounded to exact matches, and to *brand* values — the generic neutrals
+(white, black, the utility greys, `background`) are excluded, because
+`#FFFFFF` in an app is white rather than a copy of `Colors.white`, and a
+check whose findings can only be suppressed stops being read.
+
+Hexes inside comments are ignored: the contrast tables in these theme files
+quote the very values they compute. A single line can opt out with a
+`token-drift-ok` comment; `--allow` takes a path fragment for the few places
+where naming a hex is the point — a stylesheet that cannot import JS, a colour
+picker whose hexes are user-facing data.
