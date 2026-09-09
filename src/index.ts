@@ -12,3 +12,4 @@
  */
 export { Colors, rebrandScreenCanvas, androidElevatedCardSurface } from './colors';
 export { SharedHomeTokens } from './home';
+export { NavigationShellTokens } from './navigationShell';
