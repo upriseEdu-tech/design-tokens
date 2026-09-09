@@ -1,6 +1,6 @@
 {
   "name": "@upriseedu-tech/design-tokens",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "The design tokens the Uprise apps share. Data only — no runtime dependencies, nothing that knows its host.",
   "license": "UNLICENSED",
   "main": "dist/cjs/index.js",

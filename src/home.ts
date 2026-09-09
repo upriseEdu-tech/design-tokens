@@ -49,6 +49,24 @@ export const SharedHomeTokens = {
   foodEmptyTitle: '#3D3958',
   foodEmptySubtitle: '#8A869E',
   foodFlatMealEyebrow: '#6B6788',
+  /**
+   * The two chat tokens more than one app reads. `mobile` and the dashboard
+   * both had them, at the same values, in their own files — two copies of one
+   * hex is what this package exists to stop.
+   *
+   * The name is narrower than the use and stays that way on purpose: `mobile`
+   * reads this pair on its Learnings screen, not in chat. Renaming would
+   * touch five dashboard call sites for no behaviour, so the pair keeps the
+   * name its consumers already know.
+   *
+   * The other four `chat*` tokens are not here. `chatSurface`, `chatIconBg`
+   * and `chatIconTint` belong to the dashboard's admin chat and nothing else
+   * uses them; `chatBorder` was dead in both apps and is gone. The staff app
+   * has no chat tokens at all and needs none — its chat screens are styled
+   * from the general card family, which is what the rest of that app uses.
+   */
+  chatMetaBg: 'rgba(132,129,253,0.10)',
+  chatMetaText: '#57527A',
   welcomeBrandSurface: 'rgba(255,255,255,0.96)',
   welcomeBrandBorder: 'rgba(26,23,50,0.08)',
   welcomeNurseryText: '#5E58A6',
