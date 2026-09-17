@@ -151,9 +151,9 @@ from a centred mark to the illustration.
   - an unused "learning circuit" exploration (`mobile/resources/branding/logos/uprise_learning_circuit_*`)
 
 **Recommendation:**
-1. **Master SVG:** keep the sun logo as the one brand mark. Move its master SVG into this repo under `assets/brand/`
-   (data, not code), and retire the circuit exploration, or explicitly adopt it as a rebrand. **This is the decision
-   to make first. It changes the store icon every user sees.**
+1. **Master SVG — decided 2026-09-17 (Fady): the sun logo is the one brand mark.** The launch screens and
+   regenerated icons use `dashboard/public/logo/logo_single.svg`; the "learning circuit" exploration is not used.
+   Still open: moving the master SVG into this repo under `assets/brand/` (data, not code).
 2. **iOS:** one 1024 × 1024 PNG, **opaque** (no alpha), art on the canvas colour, no pre-rounded corners (iOS masks
    it). Xcode derives every size from the single image.
 3. **Android adaptive icon:**
