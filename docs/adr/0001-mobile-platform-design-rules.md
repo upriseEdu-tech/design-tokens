@@ -1,7 +1,7 @@
 # ADR 0001 — Mobile platform design rules
 
-- **Status:** Proposed
-- **Date:** 2026-09-17
+- **Status:** Accepted (§2 amended)
+- **Date:** 2026-09-17 (decided 2026-09-21)
 - **Issue:** upriseEdu-tech/design-tokens#1
 - **Deciders:** Fady Shawky
 - **Context PRs:** upriseEdu-tech/mobile#22–#24, upriseEdu-tech/teacher#19–#21
@@ -80,13 +80,21 @@ matches (login gutter, screen bottom), until a tablet layout pass decides whethe
 - Text roles keep Latin letter-spacing under RTL, which breaks Arabic's joined letters apart.
 - Eyebrows force uppercase.
 
-**Recommendation:**
-1. **Arabic family: IBM Plex Sans Arabic** (SIL OFL).
-   - Its weights match the Kumbh Sans roles we use: Thin, ExtraLight, Light, Regular, Medium, SemiBold, Bold.
-   - It's a low-contrast sans that sits next to Kumbh Sans without looking borrowed.
-   - It has a `@fontsource` package for the dashboard.
+**Recommendation (amended 2026-09-21 — Cairo, not IBM Plex Sans Arabic):**
+1. **Arabic family: Cairo** (SIL OFL).
+   - Chosen because Arabic is the dominant reading language for these users, so the Arabic face is the product's
+     primary voice rather than a companion to the Latin one. Cairo is what Egyptian products overwhelmingly use, so
+     it reads as native rather than as a well-matched import.
+   - It carries SemiBold (600), so our SemiBold roles survive — the reason Tajawal was rejected.
+   - `@fontsource/cairo` exists for the dashboard.
+   - **Cairo also ships Latin glyphs, and they are not ours.** Kumbh Sans must stay the Latin face: order the web
+     stack `'Kumbh Sans', 'Cairo', sans-serif`, and in RN select the family per string's script rather than setting
+     Cairo globally under RTL. Getting this wrong silently restyles every Latin word on an Arabic screen.
    - Until it ships, the RN apps rely on the platform Arabic face. The RTL fix PRs only map weights explicitly if
      the fallback loses them. Nothing is bundled yet.
+
+   *Not chosen: IBM Plex Sans Arabic, the original recommendation. It pairs more quietly with Kumbh Sans, which is
+   the right criterion when screens mix scripts and the wrong one when most screens are read in Arabic.*
 2. **Under RTL:**
    - Tracking is 0 for every role.
    - No `textTransform: 'uppercase'`. Arabic has no case, and eyebrows that rely on caps for hierarchy use weight or
@@ -108,9 +116,9 @@ matches (login gutter, screen bottom), until a tablet layout pass decides whethe
 - **Keep the system fallback:** zero bytes, but the brand reads differently on iOS, Android and web.
 
 **If accepted:**
-- Here: add `typography.arabicFamily` and the RTL rules (tracking 0, no uppercase) as data.
-- Apps: bundle the font, map roles under RTL.
-- Dashboard: add `@fontsource/ibm-plex-sans-arabic` and set it on `dir="rtl"`.
+- Here: add `typography.arabicFamily` (Cairo) and the RTL rules (tracking 0, no uppercase) as data.
+- Apps: bundle the font, map roles under RTL, keep Kumbh Sans for Latin.
+- Dashboard: add `@fontsource/cairo` and set it on `dir="rtl"`, after Kumbh Sans in the stack.
 
 ## 3. Launch screen
 
@@ -226,11 +234,25 @@ only swap the deprecated `react-native-vector-icons` package for its per-family 
 
 ## Decision
 
-Pending — Fady to accept, amend or reject each section.
+Decided 2026-09-21 by Fady Shawky.
+
+| § | Decision |
+|---|---|
+| 1 Layout rhythm | **Accepted** as proposed. Teacher adopts the scaled values only where today's value already matches, until a tablet layout pass settles whether spacing scales ×1.96 or stays ×1. |
+| 2 Arabic / RTL typography | **Accepted, amended:** the family is **Cairo**, not IBM Plex Sans Arabic. The RTL rules (tracking 0, no forced uppercase, the mirroring list) are accepted unchanged — they are correctness, not preference. |
+| 3 Launch screen | **Accepted** as proposed. |
+| 4 App icon | Master mark decided 2026-09-17 (the sun logo). Mechanics accepted: opaque 1024px iOS image, Android adaptive icon with a monochrome layer. Still open: moving the master SVG into `assets/brand/` here. |
+| 5 Status bar / system chrome | **Accepted** as proposed. Light-only, pinned. |
+| 6 Icon set | **Accepted:** Solar Linear as SVG across mobile, teacher and the dashboard. Migration starts now rather than waiting for the release wave. |
+| 7 Mobile rules | **Accepted** as proposed. |
+
+Sections 1, 3, 5 and 7 describe what the apps already do, so accepting them changes no pixels today; their value is
+that the next screen stops inventing its own numbers.
 
 ## Consequences
 
 - Accepted sections become tokens or notes here, with a minor version bump.
 - The apps adopt them in follow-up PRs linked from issue #1.
 - The icon-set and app-icon sections change what users see in the store and on every screen, so they ship behind
-  explicit sign-off, separately from the platform upgrade.
+  explicit sign-off, separately from the platform upgrade. That sign-off is given (§6, 2026-09-21): the per-app
+  migrations proceed now, one PR per app, keeping `IconPlatform`'s API so call sites do not change.
