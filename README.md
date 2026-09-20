@@ -4,7 +4,21 @@ The design tokens the Uprise apps share: `teacher`, `mobile` and `dashboard`.
 
 ## What is in here, and what is not
 
-**In:** the brand palette — `Colors`, `rebrandScreenCanvas`, `androidElevatedCardSurface`.
+**In:** the brand palette — `Colors`, `rebrandScreenCanvas`,
+`androidElevatedCardSurface` — plus `SharedHomeTokens`, `NavigationShellTokens`,
+and the ADR 0001 values: `LayoutRhythm`, `Typography`, `LaunchScreen`,
+`SystemChrome`, `IconTokens` and `TabletScale`.
+
+`LayoutRhythm` holds spacing BETWEEN components, in mobile points. The rule it
+serves is the half a token cannot hold: gaps belong to the parent. A component
+never margins itself away from its siblings — the screen or stack that owns
+them sets `gap` and pads once. Mobile's list gutters reached 38 because a
+wrapper added its own 20 under the screen's 18.
+
+`Typography.arabicFamily` is Cairo, and `latinFamily` stays Kumbh Sans. Cairo
+ships Latin glyphs of its own, so selecting it per *screen direction* rather
+than per *string's script* silently restyles every Latin word on an Arabic
+screen. Order the web stack Kumbh Sans first.
 
 **Not in, deliberately:**
 
