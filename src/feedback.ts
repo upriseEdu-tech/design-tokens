@@ -34,6 +34,7 @@ const en = {
     sessionEnded: 'Your session ended. Please log in again.',
     permission: "You don't have access to this.",
     notFound: 'This item no longer exists.',
+    accountSetup: "Your account isn't fully set up. Contact your administrator.",
   },
   actions: {
     save: 'save',
@@ -127,6 +128,32 @@ const en = {
     CLASS_FULL: 'This class is full.',
     STUDENT_HAS_CURRENT_MONTH_ATTENDANCE: "This student has attendance this month, so they can't be put on hold.",
     VALIDATION_ERROR: 'Some details are missing or invalid. Check the form.',
+    OUTSIDE_GEOFENCE: "You're outside the branch. Move closer and scan again.",
+    BRANCH_MISMATCH: "This QR code belongs to another branch. Scan your branch's code.",
+    DEVICE_MISMATCH: 'Check in from the device registered to your account.',
+    ALREADY_CHECKED_IN: "You're already checked in today.",
+    ALREADY_MARKED: 'Attendance for today is already recorded.',
+    BRANCH_CLOSED: 'The branch is closed on this date.',
+    FUTURE_DATE_NOT_ALLOWED: "You can't mark attendance for a future date.",
+    PAST_DATE_NOT_ALLOWED: 'Only an admin can mark attendance for a past date.',
+    ALREADY_CHECKED_OUT: 'This student is already checked out for this date.',
+    STUDENT_ON_HOLD: "This student is on hold, so they can't be checked out.",
+    STUDENT_NO_BRANCH: "This student isn't assigned to a branch yet.",
+    ALREADY_REVIEWED: 'This report has already been reviewed.',
+    ALREADY_SUBMITTED: 'This assessment has already been submitted.',
+    STUDENTS_NOT_EDITABLE: "You can edit the text, but not who it's sent to.",
+    UNSUPPORTED_IMAGE_TYPE: 'Choose a JPG, PNG or WebP image.',
+    UPLOAD_TYPE_NOT_ALLOWED: "This file type can't be uploaded.",
+    INVALID_CREDENTIALS: 'The email or password is incorrect.',
+    WRONG_CURRENT_PASSWORD: 'Your current password is incorrect.',
+    WEAK_PASSWORD:
+      'Use at least 8 characters, with an uppercase letter, a lowercase letter, a number and a symbol (!@#$%^&*).',
+    PASSWORD_CHANGE_ERROR: "Couldn't change your password. Try again.",
+    ACCOUNT_LOCKED: 'Too many failed attempts. Your account is locked for a while. Try again later.',
+    SLOT_UNAVAILABLE: 'That time slot is no longer available. Choose another.',
+    ORIENTATION_UNAVAILABLE: "Orientation booking isn't available for this branch right now.",
+    EMAIL_TAKEN: 'This email is already in use.',
+    KEY_CONFLICT: 'Someone else changed this at the same time. Reload and try again.',
   },
 };
 
@@ -154,6 +181,7 @@ const ar: Catalogue = {
     sessionEnded: 'انتهت جلستك. سجّل الدخول مرة أخرى.',
     permission: 'ليس لديك صلاحية الوصول إلى هذا.',
     notFound: 'هذا العنصر لم يعد موجودًا.',
+    accountSetup: 'حسابك غير مكتمل الإعداد. تواصل مع المسؤول.',
   },
   actions: {
     save: 'حفظ',
@@ -247,6 +275,31 @@ const ar: Catalogue = {
     CLASS_FULL: 'هذا الفصل مكتمل.',
     STUDENT_HAS_CURRENT_MONTH_ATTENDANCE: 'لدى هذا الطالب حضور هذا الشهر، لذا لا يمكن تعليقه.',
     VALIDATION_ERROR: 'بعض البيانات ناقصة أو غير صحيحة. راجع النموذج.',
+    OUTSIDE_GEOFENCE: 'أنت خارج نطاق الفرع. اقترب وامسح الرمز مرة أخرى.',
+    BRANCH_MISMATCH: 'رمز QR هذا لفرع آخر. امسح رمز فرعك.',
+    DEVICE_MISMATCH: 'سجّل حضورك من الجهاز المسجّل لحسابك.',
+    ALREADY_CHECKED_IN: 'لقد سجّلت حضورك اليوم بالفعل.',
+    ALREADY_MARKED: 'تم تسجيل الحضور لهذا اليوم بالفعل.',
+    BRANCH_CLOSED: 'الفرع مغلق في هذا التاريخ.',
+    FUTURE_DATE_NOT_ALLOWED: 'لا يمكن تسجيل الحضور لتاريخ مستقبلي.',
+    PAST_DATE_NOT_ALLOWED: 'يمكن للمسؤول فقط تسجيل الحضور لتاريخ سابق.',
+    ALREADY_CHECKED_OUT: 'تم تسجيل انصراف هذا الطالب لهذا التاريخ بالفعل.',
+    STUDENT_ON_HOLD: 'هذا الطالب معلّق، لذا لا يمكن تسجيل انصرافه.',
+    STUDENT_NO_BRANCH: 'هذا الطالب غير مرتبط بفرع بعد.',
+    ALREADY_REVIEWED: 'تمت مراجعة هذا التقرير بالفعل.',
+    ALREADY_SUBMITTED: 'تم تقديم هذا التقييم بالفعل.',
+    STUDENTS_NOT_EDITABLE: 'يمكنك تعديل النص فقط، دون تغيير المستلمين.',
+    UNSUPPORTED_IMAGE_TYPE: 'اختر صورة بصيغة JPG أو PNG أو WebP.',
+    UPLOAD_TYPE_NOT_ALLOWED: 'لا يمكن رفع هذا النوع من الملفات.',
+    INVALID_CREDENTIALS: 'البريد الإلكتروني أو كلمة المرور غير صحيحة.',
+    WRONG_CURRENT_PASSWORD: 'كلمة المرور الحالية غير صحيحة.',
+    WEAK_PASSWORD: 'استخدم 8 أحرف على الأقل، تتضمن حرفًا كبيرًا وحرفًا صغيرًا ورقمًا ورمزًا (!@#$%^&*).',
+    PASSWORD_CHANGE_ERROR: 'تعذّر تغيير كلمة المرور. حاول مرة أخرى.',
+    ACCOUNT_LOCKED: 'محاولات فاشلة كثيرة. تم قفل حسابك مؤقتًا. حاول لاحقًا.',
+    SLOT_UNAVAILABLE: 'هذا الموعد لم يعد متاحًا. اختر موعدًا آخر.',
+    ORIENTATION_UNAVAILABLE: 'حجز الجولة التعريفية غير متاح لهذا الفرع حاليًا.',
+    EMAIL_TAKEN: 'هذا البريد الإلكتروني مستخدم بالفعل.',
+    KEY_CONFLICT: 'قام شخص آخر بتغيير هذا في الوقت نفسه. أعد التحميل وحاول مرة أخرى.',
   },
 };
 
@@ -257,6 +310,11 @@ export type FeedbackItem = keyof Catalogue['items'];
 export type FeedbackAction = keyof Catalogue['actions'];
 export type FeedbackSuccess = keyof Catalogue['success'];
 
+// The families word a code that has no entry of its own. They decide text
+// only: logging out stays with each app's 401 handling, which also covers
+// PASSWORD_CHANGED and NURSERY_SUSPENDED. test/catalogue-codes.test.js checks
+// every backend code lands in an entry or a family, and in only one.
+
 /** Codes that mean "log in again" (backend auth_middleware / jwt_service). */
 export const SessionErrorCodes: readonly string[] = [
   'TOKEN_EXPIRED',
@@ -266,6 +324,12 @@ export const SessionErrorCodes: readonly string[] = [
   'NO_REFRESH_TOKEN',
   'REFRESH_TOKEN_ERROR',
   'UNAUTHENTICATED',
+  'AUTHENTICATION_ERROR',
+  'INVALID_SESSION',
+  'INVALID_REFRESH_TOKEN',
+  'TOKEN_REFRESH_ERROR',
+  'INVALID_USER',
+  'INVALID_USER_ID',
 ];
 
 /** Codes that mean "you can't reach this" (scope_policy and friends). */
@@ -278,6 +342,50 @@ export const PermissionErrorCodes: readonly string[] = [
   'STUDENT_NO_SCOPE',
   'ROLE_NOT_ASSIGNABLE',
   'ROLE_NOT_MANAGEABLE',
+  'CHAT_SEND_FORBIDDEN',
+  'STUDENT_OUTSIDE_CLASS',
+  'ALBUM_CLASS_NOT_ALLOWED',
+  'ALBUM_PLACEMENT_NOT_ALLOWED',
+  'TAG_NOT_ALLOWED',
+  'UPLOAD_FOLDER_NOT_ALLOWED',
+  'CLASS_MOVE_NOT_ALLOWED',
+  'STUDENT_PLACEMENT_NOT_ALLOWED',
+  'CATALOG_READ_ONLY',
+];
+
+/**
+ * Codes that mean the signed-in account is missing a link it needs (a staff
+ * row, a branch, a class, a parent profile). Some end in _NOT_FOUND, so this
+ * family is read before the not-found one: at login, "this item no longer
+ * exists" would be wrong.
+ */
+export const AccountSetupErrorCodes: readonly string[] = [
+  'INVALID_USER_ACCOUNT',
+  'INVALID_STAFF_USER_ID',
+  'INVALID_TOKEN_DATA',
+  'NO_STUDENT_FOUND',
+  'STAFF_RECORD_NOT_FOUND',
+  'PARENT_PROFILE_NOT_FOUND',
+  'NO_STAFF_RECORD',
+  'NO_NURSERY',
+  'NO_BRANCH_ASSIGNED',
+  'STAFF_NO_BRANCH',
+  'NO_BRANCH',
+  'NO_CLASS',
+];
+
+/** Codes for malformed input, worded as VALIDATION_ERROR. */
+export const ValidationErrorCodes: readonly string[] = [
+  'INVALID_ID',
+  'INVALID_BRANCH_ID',
+  'INVALID_STAFF_ID',
+  'INVALID_NURSERY_ID',
+  'MISSING_PARAMETER',
+  'BRANCH_ID_REQUIRED',
+  'PICKUP_ID_REQUIRED',
+  'CLASS_BRANCH_MISMATCH',
+  'SHIFT_NURSERY_MISMATCH',
+  'EMPTY_STUDENTS',
 ];
 
 export function fillFeedback(template: string, vars: Record<string, string>): string {
@@ -326,6 +434,8 @@ export function feedbackForError(
   if (has(m.errors, code)) return m.errors[code];
   if (code && SessionErrorCodes.includes(code)) return m.error.sessionEnded;
   if (code && PermissionErrorCodes.includes(code)) return m.error.permission;
+  if (code && AccountSetupErrorCodes.includes(code)) return m.error.accountSetup;
+  if (code && ValidationErrorCodes.includes(code)) return m.errors.VALIDATION_ERROR;
   if (code && (code === 'NOT_FOUND' || code.endsWith('_NOT_FOUND'))) return m.error.notFound;
   if (status === 0) return m.error.offline;
   if (status === 401) return m.error.sessionEnded;

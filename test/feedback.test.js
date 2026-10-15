@@ -100,3 +100,11 @@ test('feedbackForSuccess never throws and never leaves a hole', () => {
   assert.equal(feedbackForSuccess('en', 'saved', 'widget'), FeedbackMessages.en.success.done);
   assert.equal(feedbackForSuccess('en', 'frobnicated', 'album'), FeedbackMessages.en.success.done);
 });
+
+test('an account-setup code at login is not read as "no longer exists"', () => {
+  const en = FeedbackMessages.en;
+  assert.equal(feedbackForError('en', { code: 'STAFF_RECORD_NOT_FOUND', status: 401 }, 'load', 'profile'), en.error.accountSetup);
+  assert.equal(feedbackForError('en', { code: 'INVALID_ID', status: 400 }, 'save', 'album'), en.errors.VALIDATION_ERROR);
+  assert.equal(feedbackForError('en', { code: 'INVALID_CREDENTIALS', status: 401 }, 'submit', 'password'), en.errors.INVALID_CREDENTIALS);
+});
+

@@ -35,6 +35,8 @@ export {
   FeedbackMessages,
   SessionErrorCodes,
   PermissionErrorCodes,
+  AccountSetupErrorCodes,
+  ValidationErrorCodes,
   fillFeedback,
   feedbackForError,
   feedbackForSuccess,

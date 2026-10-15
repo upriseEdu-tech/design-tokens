@@ -1,23 +1,37 @@
-// Every specific code a user can hit has a message (spec §4.1, §4.3). The
-// list is the backend's user-facing codes as of Plan 1 Task 4; a new one is
-// added here and to src/feedback.ts in the same commit.
+// Every code the backend can send reads as a sentence that fits it (spec
+// §4.1, §4.3). The list is generated from the backend's source by
+// scripts/sync-backend-codes.mjs, not copied by hand: a hand copy of the
+// catalogue's own keys could never fail. A new backend code fails this test
+// until it has text here, either its own or one of the families'.
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const { FeedbackMessages } = require('../dist/cjs');
+const {
+  FeedbackMessages,
+  SessionErrorCodes,
+  PermissionErrorCodes,
+  AccountSetupErrorCodes,
+  ValidationErrorCodes,
+} = require('../dist/cjs');
+const { codes } = require('./fixtures/backend-codes.json');
 
-const USER_FACING_CODES = [
-  'ON_VACATION', 'NOT_ENOUGH_VACATION_DAYS', 'NOT_WORKING_DAY', 'LOCATION_REQUIRED',
-  'DEVICE_ID_REQUIRED', 'QR_NOT_RECOGNIZED', 'STAFF_CHECKED_IN', 'NO_OPEN_CHECKIN',
-  'OPEN_SHIFT_NOT_CHECKED_OUT', 'SHIFT_ALREADY_COMPLETE', 'SHIFT_ALREADY_RECORDED',
-  'NO_SHIFT_FOR_TIME', 'MODULE_DISABLED', 'NURSERY_SUSPENDED', 'ACCOUNT_DISABLED',
-  'PASSWORD_CHANGED', 'RATE_LIMITED', 'RATE_LIMIT_EXCEEDED', 'NOT_EDITABLE', 'NOT_PENDING',
-  'CONTENT_TOO_LONG', 'EMPTY_CONTENT', 'NO_RECIPIENTS', 'DUPLICATE_KEY', 'CLASS_FULL',
-  'STUDENT_HAS_CURRENT_MONTH_ATTENDANCE', 'VALIDATION_ERROR',
-];
+const families = [SessionErrorCodes, PermissionErrorCodes, AccountSetupErrorCodes, ValidationErrorCodes];
+const worded = (code) =>
+  Object.prototype.hasOwnProperty.call(FeedbackMessages.en.errors, code) ||
+  families.some((family) => (family || []).includes(code)) ||
+  code === 'NOT_FOUND' ||
+  code.endsWith('_NOT_FOUND');
 
-test('every user-facing backend code has en and ar text', () => {
-  for (const locale of ['en', 'ar']) {
-    const missing = USER_FACING_CODES.filter((c) => !FeedbackMessages[locale].errors[c]);
-    assert.deepEqual(missing, [], locale);
+test('every backend code is worded by its own entry or a family', () => {
+  assert.deepEqual(codes.filter((c) => !worded(c)), []);
+});
+
+test('the families never overlap, so a code has one meaning', () => {
+  const seen = new Map();
+  for (const family of families) {
+    for (const code of family || []) {
+      assert.ok(!seen.has(code), `${code} is in two families`);
+      assert.ok(!(code in FeedbackMessages.en.errors), `${code} has its own entry and a family`);
+      seen.set(code, true);
+    }
   }
 });
