@@ -11,19 +11,28 @@ So the work is split into plans. Each one ships working, testable software on it
 
 | # | Plan | Spec waves | Repos | Needs before writing | Status |
 |---|---|---|---|---|---|
-| 1 | Rulebook and error codes | 0, 1 (codes) | design-tokens, backend, artifact | — | **Written** (`2026-10-15-plan-1-rulebook-and-error-codes.md`) |
-| 2 | Backend performance | 1 (slow endpoints) | backend | EXPLAIN profiles of the endpoints in Plan 1 Task 7's baseline | Next |
-| 3 | RN foundations (both apps) | 2 | teacher, mobile | `design-tokens` 0.7.0 published; glyphs approved | After Plan 1 |
+| 1 | Rulebook and error codes | 0, 1 (codes) | design-tokens, backend, artifact | — | **Done 2026-10-15**: backend#140 deployed, design-tokens 0.7.0 published |
+| 2 | Backend performance | 1 (slow endpoints) | backend | — | **Written** (`2026-10-15-plan-2-backend-performance.md`) |
+| 3 | RN foundations (both apps) | 2 | teacher, mobile | `design-tokens` 0.7.1 (Plan 7 Task 1) | **Written** (`2026-10-15-plan-3-rn-foundations.md`) |
 | 4 | Staff app parity | 3 | teacher | Plan 3 merged | |
 | 5 | Staff app screen sweeps (3 PRs) | 4 | teacher | Plan 4 merged; smoothness audit | |
 | 6 | Parent app sweep | 4 | mobile | Plan 3 merged; smoothness audit | |
-| 7 | Dashboard foundations and sweep | 2, 4 | dashboard | `design-tokens` 0.7.0; glyphs approved | Can run in parallel with 3–6 |
+| 7 | Dashboard foundations and sweep | 2, 4 | design-tokens, dashboard | — | **Written** (`2026-10-15-plan-7-dashboard.md`); its Task 1 publishes 0.7.1, which Plan 3 needs |
 | 8 | Design-system artifact and release | 5, 6 | artifact, all | Plans 2–7 merged | |
 
 **Notes**
 
 - **Runtime smoothness baselines for the RN apps** (Flashlight fps, React Profiler) are taken at the start of Plan 3. That's when fresh release builds exist. Plan 1 records the static audit and the backend endpoint baseline.
 - **Glyph review.** Plan 1 publishes it as its own artifact, so the owner can approve it quickly. The registry is folded into the "Uprise Dashboard" design-system artifact in Plan 8 (spec §4.2).
+
+- **Order after Plan 1.** Plan 7 Task 1 (`design-tokens` 0.7.1: an ESM build Node can load, plus the dashboard's items) comes first: Plan 3 depends on it. After that, Plans 2, 3 and 7 can run in parallel: they touch different repos.
+- **Plan 3 deviates from spec §5.1 on purpose.** `ConfirmSheet` uses `react-native-actions-sheet`, which both apps already use for every sheet. `@gorhom/bottom-sheet` was never imported in `src`.
+- **Plan 2 found the slowness isn't SQL.** On the snapshot, the SQL behind each slow endpoint runs in 0.2–10 ms. The time goes to:
+  - unpaged notifications: up to 26,423 rows and 4 MB
+  - the request log copying every body
+  - a write on every authenticated request
+  - a new storage client per upload
+  - per-row loops in bulk schedule
 
 **Rules for every plan**
 

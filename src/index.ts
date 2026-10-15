@@ -10,9 +10,9 @@
  * and one Vite build, so a dependency here is a version conflict in three
  * places.
  */
-export { Colors, rebrandScreenCanvas, androidElevatedCardSurface } from './colors';
-export { SharedHomeTokens } from './home';
-export { NavigationShellTokens } from './navigationShell';
+export { Colors, rebrandScreenCanvas, androidElevatedCardSurface } from './colors.js';
+export { SharedHomeTokens } from './home.js';
+export { NavigationShellTokens } from './navigationShell.js';
 export {
   TabletScale,
   LayoutRhythm,
@@ -20,7 +20,7 @@ export {
   LaunchScreen,
   SystemChrome,
   IconTokens,
-} from './mobilePlatform';
+} from './mobilePlatform.js';
 export {
   IconConcepts,
   IconActions,
@@ -29,8 +29,8 @@ export {
   IconSameMeaning,
   solarLinearName,
   iconifyName,
-} from './icons';
-export type { IconConcept, IconAction, IconStatus, IconFeedbackKind } from './icons';
+} from './icons.js';
+export type { IconConcept, IconAction, IconStatus, IconFeedbackKind } from './icons.js';
 export {
   FeedbackMessages,
   SessionErrorCodes,
@@ -40,11 +40,11 @@ export {
   fillFeedback,
   feedbackForError,
   feedbackForSuccess,
-} from './feedback';
+} from './feedback.js';
 export type {
   FeedbackCatalogue,
   FeedbackLocale,
   FeedbackItem,
   FeedbackAction,
   FeedbackSuccess,
-} from './feedback';
+} from './feedback.js';
