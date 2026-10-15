@@ -21,3 +21,13 @@ export {
   SystemChrome,
   IconTokens,
 } from './mobilePlatform';
+export {
+  IconConcepts,
+  IconActions,
+  IconStatuses,
+  IconFeedback,
+  IconSameMeaning,
+  solarLinearName,
+  iconifyName,
+} from './icons';
+export type { IconConcept, IconAction, IconStatus, IconFeedbackKind } from './icons';
