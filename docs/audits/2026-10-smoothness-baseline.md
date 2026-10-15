@@ -11,7 +11,7 @@ This is the static half of the baseline: code read on the default branches, plus
 | Dashboard | `origin/master` @ `efca40d` |
 | Backend timings | `request_logs` on the local snapshot `uprise_prod_1011`, 14 days ending 2026-10-11 14:41 (10,032 requests) |
 
-**How to read the counts.** Each one comes from a `git grep` on the ref above, so it can be rerun after the sweep and compared. `git grep -E` has no `\b` or `\s`, so the list, image and selector counts use `git grep -P`, and `useRef<FlatList>` type references and each wrapper's own list are excluded by hand. Multi-line `.map(… => (` renders were counted with a small parse of `git grep -A2` output, because a line-based pattern finds none of them.
+**How to read the counts.** Each one comes from a `git grep` on the ref above, so it can be rerun after the sweep and compared. `git grep -E` has no `\b` or `\s`, so the list, image and selector counts use `git grep -P`; hooks and components are counted at their call sites (`useFocusEffect(`, `<CachedImage`), not every line that names them; and `useRef<FlatList>` type references and each wrapper's own list are excluded by hand. Multi-line `.map(… => (` renders were counted with a small parse of `git grep -A2` output, because a line-based pattern finds none of them.
 
 The **Plan** column names the plan that fixes the row:
 - 2: backend performance
@@ -28,11 +28,11 @@ The **Plan** column names the plan that fixes the row:
 | Lists on raw `FlatList`, bypassing the wrapper | `AccidentReportListScreen.tsx:135`, `ImageViewer.tsx:134`, `UploadConfirmModal.tsx:106`, `MedicalAssessmentListScreen.tsx:131`, `StudentPickerScreen.tsx:186`, `AnnouncementsList.tsx:239`, `chat/Chat.tsx:368`, `chat/ChatList.tsx:420`, `AttendanceConfirmModal.tsx:93`, `AttendanceHistoryScreen.tsx:449` | 10 raw vs 3 wrapper | 5 |
 | Lists built as `ScrollView` + `.map` | `AccidentReportFormScreen.tsx:304`, `DailySchedule/ActivityScreen.tsx:133,135`, `MedicalAssessmentFormScreen.tsx:268`, `ProgressReport/AssignmentsScreen.tsx:126`, `Student/components/StudentPickerGrid.tsx:190`, `Vacation/Vacation.tsx:152` | 7 sites in 6 files (21 map-renders in 15 files overall) | 5 |
 | Horizontal `ScrollView`s in the same file as a horizontal `FlatList` pager. Confirm they are siblings, not nested. | `Album/components/ImageViewer.tsx:134` (pager), `:200`, `:274` | 1 file | 5 |
-| Raw `<Image>` with no cache or resize; FastImage isn't installed | top: `Album.tsx` 6, `CameraScreen.tsx` 5, `StudentActivityRow.tsx` 4, `ImageGrid.tsx` 4 | 47 `<Image>`, 0 FastImage | 3 (cached image), 5 |
+| Raw `<Image>` with no cache or resize; no cached image component exists | top: `Album.tsx` 6, `CameraScreen.tsx` 5, `StudentActivityRow.tsx` 4, `ImageGrid.tsx` 4 | 47 `<Image>`, 0 cached | 3 (cached image), 5 |
 | Animation off the native driver | `FloatingUploadIndicator.tsx:45`. It animates an SVG `strokeDashoffset`, which the native driver can't drive, so this one stays. | 1 (keep) | — |
 | Whole-slice selectors (re-render on any change to the slice) | `HomeTeacherAttendance.tsx`, `main/Main.tsx`, `MainNavigation.tsx`, `RTLInitializer.tsx` | 4 of 139 `useAppSelector` | 3 |
 | Selectors returning a fresh object | — | 0 | — |
-| `useFocusEffect` (refetch on every focus; check each for blanking) | across screens | 22 | 5 |
+| `useFocusEffect(` call sites (refetch on every focus; check each for blanking) | across screens | 11 | 5 |
 | `console.*` in shipped code | across `src` | 45 | 5 |
 | Modals and forms with no keyboard handling (`KeyboardAvoidingView` / `keyboardShouldPersistTaps`) | `UploadConfirmModal`, `AttendanceConfirmModal`, `AnnouncementModal`, `EditAnnouncementModal`, `MaterialModal`, `TaggingModal`, `VacationModal`, `ModalPillHeader` | 8 files | 5 |
 | `Alert.alert` (a second error and confirm channel, spec §5) | across `src` | 39 | 4, 5 |
@@ -46,12 +46,12 @@ The **Plan** column names the plan that fixes the row:
 | Raw `FlatList`, bypassing the FlashList-backed wrapper | `ParentAccidentReportList.tsx:95`, `AlbumImageGallery.tsx:410`, `AlbumVideoGallery.tsx:527`, `ParentAttendanceScreen.tsx:189`, `ParentMedicalAssessmentList.tsx:91` | 5 (plus 2 direct `FlashList`: `chat/Chat.tsx:298`, `Notifications.tsx:87`; 18 wrapper) | 6 |
 | A vertical `ScrollView` wrapping a `FlatListWrapper` (the nested-VirtualizedList warning) | `learnings/Learnings.tsx:338` → `:372` | 1 | 6 |
 | Lists built as `ScrollView` + `.map` | `ParentMedicalAssessmentView.tsx:60`, `OrientationBooking.tsx:169`, `Settings/ChangePassword.tsx:294,389`, `LearningSectionPager.tsx:163,213`, `main/components/EventsView.tsx:189` | 7 sites in 5 files (31 map-renders in 14 files overall) | 6 |
-| Raw `<Image>` alongside the cached components | top: `AlbumImageGallery.tsx` 4, `AlbumVideoGallery.tsx` 3 | 31 `<Image>`, 14 FastImage | 6 |
+| Raw `<Image>` alongside the cached components | top: `AlbumImageGallery.tsx` 4, `AlbumVideoGallery.tsx` 3 | 31 `<Image>`; 17 cached (`<CachedImage>` / `<ImageWithFallback>` 16, `<FastImage>` 1) | 6 |
 | Whole-slice selectors | `AddContactComponent.tsx`, `main/Main.tsx`, `ChangePassword.tsx`, `useGlobalChat.ts`, `RTLInitializer.tsx` | 5 of 112 | 3 |
 | Forms with no keyboard handling | `ForceUpdateModal.tsx`, `OrientationBooking/components/FormInput.tsx`, `pickup/components/PickupForm.tsx` | 3 files | 6 |
 | `console.*` in shipped code | across `src` | 8 | 6 |
 | `Alert.alert` | across `src` | 6 | 6 |
-| `useFocusEffect` | across `src` | 2 | — |
+| `useFocusEffect(` call sites | across `src` | 1 | — |
 | Animation off the native driver | — | 0 | — |
 
 ## 3. Dashboard
