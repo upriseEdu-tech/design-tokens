@@ -1,4 +1,4 @@
-import { Colors, rebrandScreenCanvas } from './colors';
+import { Colors, rebrandScreenCanvas } from './colors.js';
 
 /**
  * The home/rebrand tokens both React Native apps share.

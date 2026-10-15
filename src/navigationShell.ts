@@ -1,4 +1,4 @@
-import { Colors, androidElevatedCardSurface } from './colors';
+import { Colors, androidElevatedCardSurface } from './colors.js';
 
 /**
  * The navigation shell's DATA. Both RN apps declared this identically — the

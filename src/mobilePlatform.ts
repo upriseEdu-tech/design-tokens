@@ -1,4 +1,4 @@
-import { rebrandScreenCanvas } from './colors';
+import { rebrandScreenCanvas } from './colors.js';
 
 /**
  * The values ADR 0001 decided (docs/adr/0001-mobile-platform-design-rules.md).
