@@ -78,3 +78,9 @@ quote the very values they compute. A single line can opt out with a
 `token-drift-ok` comment; `--allow` takes a path fragment for the few places
 where naming a hex is the point — a stylesheet that cannot import JS, a colour
 picker whose hexes are user-facing data.
+
+## Feedback and icons (spec 2026-10-15)
+
+- **Icons:** apps name a concept, action or status — `IconConcepts.pickup`, never a glyph. One concept, one Solar Linear glyph, on every platform; `npm test` fails on a glyph with two meanings or one Solar doesn't have. RN renders `solarLinearName(glyph)`, the dashboard `iconifyName(glyph)`.
+- **Feedback:** every toast, inline error and confirmation comes from `FeedbackMessages` (en/ar). Failed writes use `feedbackForError(locale, { code, status }, action, item)` — a known code, else its family, else the HTTP status, else the action message; the server's `message` is never shown. Successful writes use `feedbackForSuccess`. One report per failure; a failed load is the screen's error state, never a toast.
+- **Backend codes:** `test/fixtures/backend-codes.json` lists every code the backend can send. After a backend change adds one, run `node scripts/sync-backend-codes.mjs <path to backend>` and commit the result; `npm test` then names any code with no entry and no family.

@@ -21,3 +21,30 @@ export {
   SystemChrome,
   IconTokens,
 } from './mobilePlatform';
+export {
+  IconConcepts,
+  IconActions,
+  IconStatuses,
+  IconFeedback,
+  IconSameMeaning,
+  solarLinearName,
+  iconifyName,
+} from './icons';
+export type { IconConcept, IconAction, IconStatus, IconFeedbackKind } from './icons';
+export {
+  FeedbackMessages,
+  SessionErrorCodes,
+  PermissionErrorCodes,
+  AccountSetupErrorCodes,
+  ValidationErrorCodes,
+  fillFeedback,
+  feedbackForError,
+  feedbackForSuccess,
+} from './feedback';
+export type {
+  FeedbackCatalogue,
+  FeedbackLocale,
+  FeedbackItem,
+  FeedbackAction,
+  FeedbackSuccess,
+} from './feedback';
