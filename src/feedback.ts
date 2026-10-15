@@ -23,9 +23,11 @@ const en = {
     rejected: '{{Item}} rejected.',
     uploaded: '{{Item}} uploaded.',
     submitted: '{{Item}} submitted.',
+    done: 'Done.',
   },
   error: {
     actionFailed: "Couldn't {{action}} the {{item}}. Try again.",
+    unknown: 'Something went wrong. Try again.',
     loadFailed: "Couldn't load this. Try again.",
     offline: "You're offline. Check your connection and try again.",
     server: 'Something went wrong on our side. Try again in a moment.',
@@ -141,9 +143,11 @@ const ar: Catalogue = {
     rejected: 'تم رفض {{item}}.',
     uploaded: 'تم رفع {{item}}.',
     submitted: 'تم تقديم {{item}}.',
+    done: 'تم.',
   },
   error: {
     actionFailed: 'تعذّر {{action}} {{item}}. حاول مرة أخرى.',
+    unknown: 'حدث خطأ. حاول مرة أخرى.',
     loadFailed: 'تعذّر التحميل. حاول مرة أخرى.',
     offline: 'أنت غير متصل بالإنترنت. تحقق من الاتصال وحاول مرة أخرى.',
     server: 'حدث خطأ من جهتنا. حاول مرة أخرى بعد قليل.',
@@ -285,8 +289,20 @@ export function fillFeedback(template: string, vars: Record<string, string>): st
   });
 }
 
+// Own-property lookups: these run on the error path with values from i18n
+// state and from the server, so an unknown locale, kind, action, item or code
+// falls back instead of throwing or reading Object.prototype.
+function has<T extends object>(obj: T, key: unknown): key is keyof T {
+  return typeof key === 'string' && Object.prototype.hasOwnProperty.call(obj, key);
+}
+
+function catalogueFor(locale: unknown): Catalogue {
+  return has(FeedbackMessages, locale) ? FeedbackMessages[locale] : FeedbackMessages.en;
+}
+
 export function feedbackForSuccess(locale: FeedbackLocale, kind: FeedbackSuccess, item: FeedbackItem): string {
-  const m = FeedbackMessages[locale];
+  const m = catalogueFor(locale);
+  if (!has(m.success, kind) || !has(m.items, item)) return m.success.done;
   return fillFeedback(m.success[kind], { item: m.items[item] });
 }
 
@@ -294,10 +310,9 @@ export function feedbackForSuccess(locale: FeedbackLocale, kind: FeedbackSuccess
  * The text for a failed write. A known code wins; an unknown one is read by
  * its family, then by HTTP status; anything left is the action message. Never
  * returns the server's own text and never returns empty (status 0 is how
- * axios reports "no response": offline).
- *
- * Known codes are an own-property check: `in` would also match
- * Object.prototype keys, and a code "constructor" would return a function.
+ * axios reports "no response": offline). It never throws either: an unknown
+ * locale reads English, a non-string code is ignored, and an action or item
+ * the catalogue lacks gives a whole sentence rather than one with a hole.
  */
 export function feedbackForError(
   locale: FeedbackLocale,
@@ -305,11 +320,10 @@ export function feedbackForError(
   action: FeedbackAction,
   item: FeedbackItem,
 ): string {
-  const m = FeedbackMessages[locale];
-  const { code, status } = error;
-  if (code && Object.prototype.hasOwnProperty.call(m.errors, code)) {
-    return m.errors[code as keyof Catalogue['errors']];
-  }
+  const m = catalogueFor(locale);
+  const code = typeof error?.code === 'string' ? error.code : undefined;
+  const status = typeof error?.status === 'number' ? error.status : undefined;
+  if (has(m.errors, code)) return m.errors[code];
   if (code && SessionErrorCodes.includes(code)) return m.error.sessionEnded;
   if (code && PermissionErrorCodes.includes(code)) return m.error.permission;
   if (code && (code === 'NOT_FOUND' || code.endsWith('_NOT_FOUND'))) return m.error.notFound;
@@ -318,5 +332,6 @@ export function feedbackForError(
   if (status === 403) return m.error.permission;
   if (status === 404) return m.error.notFound;
   if (status != null && status >= 500) return m.error.server;
+  if (!has(m.actions, action) || !has(m.items, item)) return m.error.unknown;
   return fillFeedback(m.error.actionFailed, { action: m.actions[action], item: m.items[item] });
 }

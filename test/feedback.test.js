@@ -81,3 +81,22 @@ test('code families: *_NOT_FOUND, session and permission codes', () => {
   assert.equal(feedbackForError('en', { code: 'TOKEN_EXPIRED', status: 401 }, 'save', 'album'), en.error.sessionEnded);
   assert.equal(feedbackForError('en', { code: 'STAFF_ID_MISMATCH', status: 403 }, 'save', 'album'), en.error.permission);
 });
+
+// Review I4: this runs on the error path (an axios interceptor), so a throw
+// here means no message at all. Bad input degrades to English and to whole
+// sentences, never to an exception or a sentence with a hole in it.
+test('feedbackForError never throws and never leaves a hole', () => {
+  const en = FeedbackMessages.en;
+  assert.equal(feedbackForError('en-US', { status: 403 }, 'save', 'album'), en.error.permission);
+  assert.equal(feedbackForError(undefined, {}, 'save', 'album'), "Couldn't save the album. Try again.");
+  assert.equal(feedbackForError('en', { code: 42, status: 409 }, 'save', 'album'), "Couldn't save the album. Try again.");
+  assert.equal(feedbackForError('en', { code: 'BRAND_NEW' }, 'frobnicate', 'album'), en.error.unknown);
+  assert.equal(feedbackForError('en', { code: 'BRAND_NEW' }, 'save', 'widget'), en.error.unknown);
+  assert.equal(feedbackForError('en', undefined, 'save', 'album'), "Couldn't save the album. Try again.");
+});
+
+test('feedbackForSuccess never throws and never leaves a hole', () => {
+  assert.equal(feedbackForSuccess('fr', 'saved', 'album'), 'Album saved.');
+  assert.equal(feedbackForSuccess('en', 'saved', 'widget'), FeedbackMessages.en.success.done);
+  assert.equal(feedbackForSuccess('en', 'frobnicated', 'album'), FeedbackMessages.en.success.done);
+});
