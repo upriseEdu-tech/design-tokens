@@ -1,4 +1,4 @@
-# Cross-app design consistency: one icon system, one feedback system, staff app parity
+# Cross-app design consistency: one icon system, one feedback system, staff app parity, smoothness
 
 - **Status:** approved in conversation, 2026-10-15. Awaiting review of this written spec.
 - **Owner:** Fady Shawky.
@@ -12,6 +12,7 @@ Uprise is starting marketing and taking on A++ clients. The three apps must read
 - The same situation looks and behaves the same on every screen and every platform. That covers errors, successes, confirmations, loading, empty and offline.
 - Each product concept has exactly one icon, in one icon family and one style. That icon is the same on all three platforms, and no screen repeats it.
 - The Staff app reaches the parent app's level of finish.
+- Every app is smooth and easy to use: no glitches, no scroll problems, fast lists and screens.
 
 **Success criteria**
 
@@ -19,6 +20,7 @@ Uprise is starting marketing and taking on A++ clients. The three apps must read
 2. Every icon is resolved through the shared concept registry. No two concepts share a glyph, and no glyph has two meanings.
 3. On a phone, Staff app screens use the parent app's type scale and its shared components: buttons, skeletons, lists, avatars, status pills and the tab bar.
 4. Guard checks fail the build on any regression: stray icons, `Alert.alert`, raw error text, or missing translations.
+5. The smoothness targets in §8.2 are met on every swept screen.
 
 ## 2. What the audits found (2026-10-15)
 
@@ -202,21 +204,88 @@ The parent app is the reference. Where it already does something well, the Staff
   - `@gorhom/bottom-sheet`
 - **Parent app.** It gets sections 5–6, plus `ConfirmSheet` for pickup delete, contact delete and logout. Its look is otherwise unchanged.
 
-## 8. Delivery
+## 8. Smoothness, glitches, scrolling and performance (all apps)
+
+### 8.1 Find the problems with evidence
+
+**Code audit, per app,** for the usual causes:
+
+- **Scrolling (RN):**
+  - Scroll views nested in same-direction lists ("VirtualizedLists should never be nested").
+  - Lists built as `ScrollView` + `.map`.
+  - Content hidden behind the tab bar or home indicator.
+  - The keyboard covering inputs (`keyboardShouldPersistTaps`, `KeyboardAvoidingView`).
+  - Pull-to-refresh that jumps.
+  - Horizontal-in-vertical conflicts.
+  - Scroll direction or position wrong under RTL.
+- **Speed (RN):**
+  - `renderItem` and inline callbacks that re-render whole lists.
+  - Missing `keyExtractor` or `getItemLayout`.
+  - Selectors that return new objects or whole slices on every render.
+  - Full-size photos in grids.
+  - Animations on the JS thread (no native driver).
+  - Leaking Firestore listeners or timers.
+  - Refetch on every focus that blanks or flickers the screen.
+  - `console.*` in release builds.
+- **Glitches (RN):**
+  - Layout jumps as content loads.
+  - Double taps that navigate or submit twice.
+  - Stale data after a write.
+  - State lost on tab switch.
+  - Safe-area overlaps.
+  - Modals behind the keyboard.
+- **Dashboard:**
+  - Re-render storms and large unpaginated or unvirtualised tables.
+  - SWR revalidation flicker and layout shift.
+  - Nested scroll containers and dialogs that don't scroll.
+  - Route and bundle size (Vite chunking).
+
+**Measurements:**
+
+- Release builds on an iPhone simulator, an iPad simulator and an Android emulator.
+- Flashlight (Android performance CLI) on the main lists.
+- React Profiler on the slowest screens.
+- Lighthouse and web vitals on the main dashboard pages.
+- **Backend:** the endpoints each main screen waits on, ranked by real `duration_ms` in `request_logs` on the 2026-10-11 snapshot, against the ~100 ms server-side budget.
+
+Before/after numbers are recorded in each PR.
+
+### 8.2 Targets for this release
+
+- **Scrolling:** the main lists hold about 60 fps (Flashlight average ≥ 55 on the Android emulator). No nested-list warnings appear in the logs.
+- **Loading:** nothing jumps. Skeletons match the final layout, and a refetch never blanks a screen that already has data.
+- **Every swept screen:**
+  - It scrolls to its last item with the keyboard closed and open, and nothing is hidden behind bars.
+  - Double taps don't double-act.
+  - It works in Arabic.
+- **Backend:** endpoints the main screens wait on stay within budget, with indexes where needed (`CONCURRENTLY` migrations).
+
+### 8.3 How the fixes land
+
+- **Shared groundwork first** (waves 2–3):
+  - FlashList-backed `FlatListWrapper`
+  - Cached, thumbnail-sized images
+  - Memoised selectors
+  - A tap-once guard for navigation and submit
+  - Skeletons sized to the final layout
+- **Slow endpoints** are fixed in the backend wave.
+- **Each screen PR in wave 4** carries that screen's glitch, scroll and speed fixes. It ticks the per-screen QA checklist: scroll, keyboard, Arabic, loading/empty/error/offline, double tap, back navigation, phone and tablet.
+
+## 9. Delivery
 
 Each wave is a set of reviewable PRs, approved before merge.
 
 | Wave | Content | Repos |
 |---|---|---|
-| 0 | `design-tokens` 0.7.0: `iconConcepts`, the `feedback` catalogue and checks. Registry review page in the artifact, where the owner approves the glyphs. | design-tokens, artifact |
-| 1 | Error codes on user-facing business errors, plus a check for missing codes | backend |
-| 2 | Foundations: icon component and codemod, one toast, `ConfirmSheet`, `notify*` and the API-layer policy (RN); the `notify` helper and its API-layer policy (dashboard) | teacher, mobile, dashboard |
+| 0 | `design-tokens` 0.7.0: `iconConcepts`, the `feedback` catalogue and checks. Registry review page in the artifact, where the owner approves the glyphs. Smoothness audit and baseline measurements (§8.1). | design-tokens, artifact, all apps (read-only) |
+| 1 | Error codes on user-facing business errors, plus a check for missing codes. Slow endpoints behind the main screens. | backend |
+| 2 | Foundations: icon component and codemod, one toast, `ConfirmSheet`, `notify*` and the API-layer policy (RN); the `notify` helper and its API-layer policy (dashboard). Performance groundwork (§8.3). | teacher, mobile, dashboard |
 | 3 | Staff parity components and phone sizing | teacher |
-| 4 | Screen sweeps. Staff app: navigation and Home, then daily work, then staff and admin screens. Parent app: 1–2 PRs. Dashboard: 2–3 PRs by nav section. | all |
+| 4 | Screen sweeps, each with its glitch, scroll and speed fixes and the per-screen QA checklist. Staff app: navigation and Home, then daily work, then staff and admin screens. Parent app: 1–2 PRs. Dashboard: 2–3 PRs by nav section. | all |
 | 5 | Artifact: tokens, the Icons and Feedback pages, Staff templates | artifact |
 | 6 | Release: device QA. Move the `v6.0.2` and `v3.0.0` tags and rebuild. Deploy the dashboard (merge as upriseEdu-tech) and the backend. | all |
 
-## 9. Verification
+## 10. Verification
 
 - **Unit tests (Jest, RN):**
   - Registry uniqueness and catalogue key parity.
@@ -233,9 +302,10 @@ Each wave is a set of reviewable PRs, approved before merge.
   - Fresh debug builds of both RN apps on an iPhone simulator, an iPad simulator and an Android emulator, against a local backend on the 2026-10-11 snapshot with local test accounts.
   - Before/after screenshots of the key screens in English and Arabic.
   - The dashboard is checked in the browser preview.
+- **Smoothness:** before/after numbers in each PR: Flashlight fps on the swept lists, React Profiler render counts on the slowest screens, Lighthouse for dashboard pages, and `request_logs` durations for the endpoints changed. Logs show no nested-list warnings. The per-screen QA checklist (§8.3) is ticked in each screen PR.
 - **Release builds:** the owner checks them in TestFlight and on a Headwind tablet before submission.
 
-## 10. Out of scope
+## 11. Out of scope
 
 - Converting the centred modals into sheets
 - A shared RN component library
@@ -243,9 +313,9 @@ Each wave is a set of reviewable PRs, approved before merge.
 - New features
 - Store listing assets
 
-## 11. Risks
+## 12. Risks
 
-- **Size.** About 2–3 weeks of work across five repos, and the store submission waits for it. Waves are ordered so the most visible wins land first.
+- **Size.** About 3–5 weeks of work across five repos, the smoothness sweep included, and the store submission waits for it. Waves are ordered so the most visible wins land first.
 - **Native dependencies in the Staff app.** They need a full rebuild and `pod install`. Versions are pinned to `mobile`'s.
 - **Publishing `design-tokens`.** It publishes to GitHub Packages. RN CI already fails `npm ci` on that package with a 403, so CI must be checked separately.
 - **Parallel sessions.** All work happens in worktrees off the default branches. Other sessions' checkouts are never touched.
