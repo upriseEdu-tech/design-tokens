@@ -94,7 +94,33 @@ Three more lists drop hard at the minimum: Staff Students (29), Staff Notificati
 - Together with the crossfade, Home keeps committing about every 0.8 s for as long as it's open.
 - So the parent figure is "first 15 s plus the steady rate" rather than "to idle".
 
+## After Plan 3 (2026-10-16)
+
+Plan 3's foundations are on `teacher` 58edb0f and `mobile` 037f9ce (`feat/rn-foundations`). Re-running them next to the 15 October figures above would compare across emulator boots and camera setups, and the slowest-commit figure moves with both. So both builds were measured back to back on one boot: before on `main`, after on `feat/rn-foundations`. The method, accounts and backend are the same as above.
+
+**Conditions this time**
+- The AVD now has an emulated front camera and an emulated back camera.
+  - Without a front camera, CameraX retries its startup check for about 6 s. vision-camera then reports no camera for the whole session.
+  - This doesn't change list rendering, so Flashlight figures stay comparable.
+- The staff app ran in English, with camera permission revoked so that Check-in asks again on every cold open, as on 15 October.
+
+| App | Measure | Before (`main`) | After (Plan 3) |
+|---|---|---|---|
+| Staff | Cold open to idle: commits | 6 (6, 6, 6) | 6 (6, 6, 6) |
+| Staff | Cold open to idle: slowest commit | 779 ms (1313, 779, 691) | 882 ms (882, 873, 938) |
+| Staff | Tapping Home after idle: commits | 56 (58, 56, 56) | 55 (54, 55, 55) |
+| Parent | Commits in the first 15 s | 48 (54, 48, 47) | 42 (42, 36, 45) |
+| Parent | Slowest commit in the first 15 s | 1189 ms (1189, 1086, 1383) | 1096 ms (1096, 1855, 653) |
+
+**Reading**
+- **Parent: about 12% fewer commits.** The parent app commits about 12% less in its first 15 s. Eight whole-slice selectors now read single fields, among them the navigator, the localization provider and the global chat hook.
+- **Staff: unchanged within noise.** Its five selector sites aren't on Home's hot path.
+- **Slowest commits: no regression.** Slowest-commit spreads overlap between the two builds.
+- **Tapping Home now costs about 55 commits.** Task 0 recorded 1–2, because Home was already mounted with the tabs then. On this boot Home mounts on first tap in both builds. The comparison holds; the 15 October figure doesn't carry over.
+- **Steady state not re-measured.** The parent's steady-state rate is driven by GalleryCTA's 2.4 s slideshow, which Plan 3 doesn't touch.
+
 ## Findings along the way
 
 - **Parent release crash:** `main`'s Android release build crashes on Home. R8 full mode strips the no-arg constructor of Glide's `OkHttpGlideModule`, which `@d11/react-native-fast-image` loads by reflection. Fixed in mobile#72. iOS is unaffected.
 - **Staff camera:** with camera permission denied, the camera screen is plain black, and Check-in asks for the permission again on every cold open.
+- **Toast placement (both apps):** the branded toast sat at a fixed `bottom: 24`, over the tab bar and half under Android's 3-button navigation bar. The parent app's `main` has the same offset. It is fixed on `feat/rn-foundations` with the safe-area inset plus the tab bar's height.
