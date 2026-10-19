@@ -60,3 +60,10 @@ test('renderer names', () => {
   assert.equal(solarLinearName('car'), 'car-linear');
   assert.equal(iconifyName('car'), 'solar:car-linear');
 });
+
+test('feedback has a warning glyph of its own, apart from error', () => {
+  // The dashboard snackbar and MUI Alert have a warning state that had no glyph.
+  const { IconFeedback } = require('../dist/cjs');
+  assert.equal(IconFeedback.warning, 'danger');
+  assert.notEqual(IconFeedback.warning, IconFeedback.error);
+});

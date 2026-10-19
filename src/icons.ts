@@ -117,6 +117,8 @@ export const IconFeedback = {
   success: 'check-circle',
   error: 'danger-circle',
   info: 'info-circle',
+  // Not danger-triangle: that is the accident-reports concept, and a glyph means one thing.
+  warning: 'danger',
   offline: 'cloud-cross',
 } as const;
 
