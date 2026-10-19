@@ -166,6 +166,7 @@ const en = {
     SLOT_UNAVAILABLE: 'That time slot is no longer available. Choose another.',
     ORIENTATION_UNAVAILABLE: "Orientation booking isn't available for this branch right now.",
     EMAIL_TAKEN: 'This email is already in use.',
+    PARENT_ALREADY_LINKED: 'This guardian is already linked to this student.',
     KEY_CONFLICT: 'Someone else changed this at the same time. Reload and try again.',
   },
 };
@@ -325,6 +326,7 @@ const ar: Catalogue = {
     SLOT_UNAVAILABLE: 'هذا الموعد لم يعد متاحًا. اختر موعدًا آخر.',
     ORIENTATION_UNAVAILABLE: 'حجز الجولة التعريفية غير متاح لهذا الفرع حاليًا.',
     EMAIL_TAKEN: 'هذا البريد الإلكتروني مستخدم بالفعل.',
+    PARENT_ALREADY_LINKED: 'هذا الولي مرتبط بالفعل بهذا الطالب.',
     KEY_CONFLICT: 'قام شخص آخر بتغيير هذا في الوقت نفسه. أعد التحميل وحاول مرة أخرى.',
   },
 };

@@ -1,5 +1,5 @@
 {
-  "source": "upriseEdu-tech/backend@6efa1e0",
+  "source": "upriseEdu-tech/backend@8a11fca",
   "codes": [
     "ACCOUNT_DISABLED",
     "ACCOUNT_LOCKED",
@@ -29,6 +29,7 @@
     "CLASS_NOT_FOUND",
     "CONTACT_NOT_FOUND",
     "CONTENT_TOO_LONG",
+    "DELETED_RECORD_NOT_FOUND",
     "DEVICE_ID_REQUIRED",
     "DEVICE_MISMATCH",
     "DUPLICATE_KEY",
@@ -77,6 +78,7 @@
     "OPEN_SHIFT_NOT_CHECKED_OUT",
     "ORIENTATION_UNAVAILABLE",
     "OUTSIDE_GEOFENCE",
+    "PARENT_ALREADY_LINKED",
     "PARENT_NOT_FOUND",
     "PARENT_OUTSIDE_TENANT",
     "PARENT_PROFILE_NOT_FOUND",
@@ -86,6 +88,7 @@
     "PHOTO_NOT_FOUND",
     "PICKUP_ID_REQUIRED",
     "PICKUP_NOT_FOUND",
+    "QR_CODE_NOT_FOUND",
     "QR_NOT_RECOGNIZED",
     "RATE_LIMITED",
     "RATE_LIMIT_EXCEEDED",
