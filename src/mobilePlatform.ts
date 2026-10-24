@@ -10,12 +10,10 @@ import { rebrandScreenCanvas } from './colors.js';
  */
 
 /**
- * The factor `teacher` scales `mobile`'s values by for tablets. It lives here
- * because two values below are already derived from it (the tablet launch
- * mark, the tablet icon sizes), and a scale that disagrees with the numbers
- * derived from it is worse than no scale at all.
- *
- * `commonSizes` itself stays per-app — see the README.
+ * Used only for the tablet launch mark and icon sizes derived below. The
+ * apps no longer scale sizes on tablets (ADR 0001 §1, owner 2026-10-21): both
+ * use one scale, rn-ui's `CommonSizes`, and a tablet spends its extra width on
+ * columns and panes.
  */
 export const TabletScale = 1.96;
 
@@ -31,8 +29,8 @@ export const TabletScale = 1.96;
  * under the screen's 18, which is what happens when both sides think the gap
  * is theirs.
  *
- * `teacher` applies TabletScale where a tablet layout pass says it should;
- * today it adopts these only where its current value already matches.
+ * Both apps read these through rn-ui's `CommonSizes.layout`, unscaled on
+ * tablets (ADR 0001 §1, owner 2026-10-21).
  */
 export const LayoutRhythm = {
   gutter: 18,
