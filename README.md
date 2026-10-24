@@ -28,8 +28,9 @@ screen. Order the web stack Kumbh Sans first.
 - Anything that imports `react-native`. The dashboard consumes this package, so
   a `Platform.select` in here would break its build. `navigationShell`'s `get*`
   helpers stay in the apps and read the shared data.
-- `commonSizes` — the two RN apps' copies differ **by design**: `teacher` is
-  `mobile` × 1.96 for tablet scaling.
+- `commonSizes` — the sizes are one scale for both RN apps (ADR 0001 §1, closed
+  2026-10-21: the Staff ×1.96 tablet multiplier is gone), and they live in
+  `@upriseedu-tech/rn-ui`'s `CommonSizes`, not here and not in the apps.
 - MUI's palette shape and typography. The dashboard maps these values onto its
   own structure.
 

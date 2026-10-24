@@ -1,6 +1,6 @@
 # ADR 0001 — Mobile platform design rules
 
-- **Status:** Accepted (§2 amended)
+- **Status:** Accepted (§2 amended; §1 closed 2026-10-21)
 - **Date:** 2026-09-17 (decided 2026-09-21)
 - **Issue:** upriseEdu-tech/design-tokens#1
 - **Deciders:** Fady Shawky
@@ -58,9 +58,9 @@ Nothing here changes `src/` until it's accepted. Accepted token values then land
 **Where it lives:**
 - Put the **mobile base values here** (`LayoutRhythm`, data only).
 - Each app applies its own scale in its `commonSizes`: mobile ×1, teacher ×1.96. `commonSizes` itself stays
-  per-app, as this package's README already says.
+  per-app, as this package's README already says. *(Superseded 2026-10-21: one scale for both apps, closed below.)*
 
-**Open question:** teacher's screens don't follow ×1.96 for spacing today. Applying the scaled tokens roughly doubles
+**Open question (closed 2026-10-21, see "Closed" below):** teacher's screens don't follow ×1.96 for spacing today. Applying the scaled tokens roughly doubles
 teacher's gutters and gaps. The apps define the tokens now, but teacher only adopts them where today's value already
 matches (login gutter, screen bottom), until a tablet layout pass decides whether ×1.96 or ×1 is right for spacing.
 
@@ -70,6 +70,22 @@ matches (login gutter, screen bottom), until a tablet layout pass decides whethe
 - Keep per-screen numbers. That's what produced the 38/60 gutters.
 
 **If accepted:** add `LayoutRhythm` to `src/`, bump the minor version, and have the apps read their base from it.
+
+**Closed (owner decision, Fady Shawky, 2026-10-21): one size scale, shared by the parent and the Staff app.**
+- The Staff app's ×1.96 tablet multiplier is removed. Text, spacing, radii and control sizes are the same numbers on a
+  phone and on a tablet, and they are the parent's. The answer to the open question is ×1, for spacing and for
+  everything else sized in points.
+- A tablet uses its extra width for more columns, side-by-side panes and width-capped sheets and forms, never for
+  bigger type or bigger gaps. Staff tablets are landscape-only (the parent is phone-only), so there is no
+  tablet-portrait layout to size.
+- `LayoutRhythm` therefore needs no per-app scale: every app reads it as it stands.
+- **Where it lives in code:** `@upriseedu-tech/rn-ui`'s spacing and size tokens, which both apps import through their
+  `@design-system` alias. `CommonSizes` (`src/theme/commonSizes.ts`) holds the one scale, and `CommonSizes.layout`
+  carries the `LayoutRhythm` numbers; `LayoutRhythm` itself is re-exported from this package unchanged. The rn-ui
+  `responsive` helpers use the 375 x 812 phone frame on a tablet too (clamped to 430 x 932). The apps no longer keep a
+  `commonSizes` of their own.
+- `TabletScale` stays in this package for §3's launch mark (188pt on tablets, a launch asset rather than a layout
+  size). It is no longer the scale of anything else.
 
 ## 2. Arabic and RTL typography
 
@@ -238,7 +254,7 @@ Decided 2026-09-21 by Fady Shawky.
 
 | § | Decision |
 |---|---|
-| 1 Layout rhythm | **Accepted** as proposed. Teacher adopts the scaled values only where today's value already matches, until a tablet layout pass settles whether spacing scales ×1.96 or stays ×1. |
+| 1 Layout rhythm | **Accepted** as proposed. **Closed 2026-10-21:** one size scale, the parent's, for both apps; the Staff ×1.96 multiplier is removed and a tablet's extra width becomes columns and panes, not bigger sizes (landscape only). It lives in `@upriseedu-tech/rn-ui`'s size tokens. Until then (2026-09-21): teacher adopted the scaled values only where today's value already matched. |
 | 2 Arabic / RTL typography | **Accepted, amended:** the family is **Cairo**, not IBM Plex Sans Arabic. The RTL rules (tracking 0, no forced uppercase, the mirroring list) are accepted unchanged — they are correctness, not preference. |
 | 3 Launch screen | **Accepted** as proposed. |
 | 4 App icon | Master mark decided 2026-09-17 (the sun logo). Mechanics accepted: opaque 1024px iOS image, Android adaptive icon with a monochrome layer. Still open: moving the master SVG into `assets/brand/` here. |
@@ -248,6 +264,9 @@ Decided 2026-09-21 by Fady Shawky.
 
 Sections 1, 3, 5 and 7 describe what the apps already do, so accepting them changes no pixels today; their value is
 that the next screen stops inventing its own numbers.
+
+The 2026-10-21 decision under §1 supersedes the other places this record says "teacher ×1.96": §6's icon sizes (the
+16 / 20 / 24 / 32 steps are the same on both apps) and §7's touch target (≥ 48 × 48 on both). §3 stands as written.
 
 ## Consequences
 
