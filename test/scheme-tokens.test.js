@@ -104,6 +104,17 @@ test('non-colour values are identical in light and dark', () => {
   }
 });
 
+// The dashboard is plain JS: a mistyped role name gets no compile error, so it
+// must fail loudly here instead of painting `undefined` (invisible text).
+test('resolveColour throws on an unknown role, naming it', () => {
+  for (const scheme of ['light', 'dark']) {
+    assert.throws(() => t.resolveColour('surfaceSunkn', scheme), /surfaceSunkn/);
+    // Checked in light too, so a typo shows up whichever scheme the developer runs.
+    assert.throws(() => t.resolveColour({ light: '#FFFFFF', dark: 'nope' }, scheme), /nope/);
+  }
+  assert.equal(t.resolveColour('canvas', 'dark'), '#121214');
+});
+
 test('systemChrome: dark is { colorScheme: "dark", statusBar: "light-content" }', () => {
   assert.deepEqual(t.systemChrome('dark'), { colorScheme: 'dark', statusBar: 'light-content' });
   assert.deepEqual(t.systemChrome('light'), { colorScheme: 'light', statusBar: 'dark-content' });

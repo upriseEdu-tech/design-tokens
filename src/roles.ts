@@ -11,8 +11,15 @@ import { Colors, androidElevatedCardSurface, rebrandScreenCanvas } from './color
  *
  * The dark side is graphite (owner's pick from three mocked directions): a
  * neutral near-black, with the brand families carrying the identity. Values
- * marked "derived" come from `scripts/derive-dark-roles.mjs`; the tests pin
- * them to that rule. All ratios are WCAG 2.x, computed with `contrastRatio`.
+ * marked "derived" come from `scripts/derive-dark-roles.mjs`. The tests pin the
+ * derived tints to that rule and hold every text role to AA; they do not
+ * re-derive the text values, so re-run the script after changing one. All
+ * ratios are WCAG 2.x, computed with `contrastRatio`.
+ *
+ * There is no on-accent text role yet: white measures 1.31–3.35:1 on seven of
+ * the eight solid accents, so it can't be one name for all of them. The role
+ * for text on a solid accent fill is an owner colour call, settled with the
+ * rn-ui plan (Plan 3).
  */
 
 export type ColorScheme = 'light' | 'dark';
@@ -38,7 +45,6 @@ export const LightRoles = {
   // Replaces #929292 (3.11:1 on white) and subtitleColor #6F6B8A (4.47:1 on
   // the chip), which both failed AA.
   textMuted: Colors.neutralText,
-  textOnAccent: Colors.white,
   shadow: '#17142A',
   photoScrim: 'transparent',
 
@@ -99,7 +105,6 @@ export const DarkRoles: { readonly [K in RoleName]: string } = {
   // 7.30:1 on canvas, 6.63 on surface, 5.57 on surfaceSunken, 6.03 on
   // surfaceRaised.
   textMuted: '#A1A1AA',
-  textOnAccent: Colors.white,
   shadow: '#000000',
   // Photo cover cards only, never the full-screen viewer: takes the glare off a
   // bright photo on a dark screen.

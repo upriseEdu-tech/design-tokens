@@ -24,9 +24,19 @@ export type ColourSourceTree = { readonly [key: string]: ColourSource | ColourSo
 
 const isColourSource = (value: object): value is Exclude<ColourSource, string> => 'light' in value || 'same' in value;
 
+// TypeScript catches a mistyped role here, but the dashboard calls this from
+// plain JS, where a typo would resolve to `undefined` and paint nothing.
+function assertRole(role: string): asserts role is RoleName {
+  if (!(role in Roles.light)) throw new Error(`resolveColour: "${role}" is not a colour role`);
+}
+
 export function resolveColour(source: ColourSource, scheme: ColorScheme): string {
-  if (typeof source === 'string') return Roles[scheme][source];
+  if (typeof source === 'string') {
+    assertRole(source);
+    return Roles[scheme][source];
+  }
   if ('same' in source) return source.same;
+  assertRole(source.dark);
   return scheme === 'light' ? source.light : Roles.dark[source.dark];
 }
 

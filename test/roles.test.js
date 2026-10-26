@@ -1,8 +1,9 @@
 // The role table is what dark mode stands on (spec 2026-10-26): one name per
 // colour job, a light and a dark value each. These guards keep the two tables
 // the same shape, keep every text role at AA in BOTH schemes, and pin the
-// derived dark values to the rule that produced them, so a hand edit can't
-// drift from scripts/derive-dark-roles.mjs without failing here.
+// derived dark tints to the rule that produced them. A hand-edited dark text
+// value still has to clear AA here, but only scripts/derive-dark-roles.mjs
+// says whether it is the derived one.
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const {
@@ -79,6 +80,20 @@ for (const scheme of ['light', 'dark']) {
     assertAA(roles, 'dangerText', STATUS_GROUNDS, scheme);
   });
 }
+
+// A text role nobody measures is how textOnAccent shipped in the first cut:
+// white measured 1.31–3.35:1 on seven of the eight accents and no test looked.
+test('every role named for text is one this file holds to AA', () => {
+  const held = new Set([
+    'text',
+    'textMuted',
+    'successText',
+    'dangerText',
+    ...BrandFamilies.map((f) => `${f}Text`),
+  ]);
+  const textRoles = Object.keys(LightRoles).filter((r) => /^text|Text$/.test(r));
+  assert.deepEqual(textRoles.filter((r) => !held.has(r)), []);
+});
 
 test('light brand roles are the Colors values, unchanged', () => {
   for (const f of BrandFamilies) {
