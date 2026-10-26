@@ -1,4 +1,6 @@
-import { Colors, rebrandScreenCanvas } from './colors.js';
+import { colourSourcesOf, resolveTokens } from './colourSource.js';
+import type { TokenDefinition } from './colourSource.js';
+import type { ColorScheme } from './roles.js';
 
 /**
  * The home/rebrand tokens both React Native apps share.
@@ -7,48 +9,54 @@ import { Colors, rebrandScreenCanvas } from './colors.js';
  * pick their value from `Platform.OS`, and nothing here may import
  * `react-native` — the dashboard consumes this package too. Each app composes
  * those two, and its own app-specific tokens, on top of this object.
+ *
+ * Colours are sources (a role, `{ light, dark }` or `{ same }`, see
+ * colourSource.ts), resolved per scheme by `sharedHomeTokens(scheme)`. Light
+ * changed once, on purpose (owner, 2026-10-26: one value per job): the greys
+ * and inks that did the same job as `titleColor` / `subtitleColor` became
+ * `text` / `textMuted`, and the near-equal chip greys became `surfaceSunken`.
+ * test/scheme-tokens.test.js lists every value that moved.
  */
-export const SharedHomeTokens = {
-
-  screenBackground: rebrandScreenCanvas,
+const definition = {
+  screenBackground: 'canvas',
   screenGlowTopOpacity: 0.28,
   screenGlowBottomOpacity: 0.22,
-  screenAmbientGlowTop: '#E6E6EA',
-  screenAmbientGlowBottom: '#EBEBEF',
+  screenAmbientGlowTop: { light: '#E6E6EA', dark: 'surfaceSunken' },
+  screenAmbientGlowBottom: { light: '#EBEBEF', dark: 'surfaceSunken' },
   pageHorizontalPadding: 18,
   pageTopPadding: 14,
   sectionGap: 14,
   priorityClusterGap: 10,
-  priorityPairBorder: 'rgba(132,129,253,0.2)',
-  priorityPairIconShellBg: '#F0EFF5',
-  priorityPairIconShellBorder: 'rgba(132,129,253,0.14)',
+  priorityPairBorder: { same: 'rgba(132,129,253,0.2)' },
+  priorityPairIconShellBg: 'surfaceSunken',
+  priorityPairIconShellBorder: { same: 'rgba(132,129,253,0.14)' },
   priorityPairShadowOpacity: 0.075,
   sectionHeaderGap: 8,
   cardRadius: 20,
   cardInnerRadius: 16,
   chipRadius: 12,
-  cardBorderColor: 'rgba(132,129,253,0.14)',
-  mutedBorder: 'rgba(26,23,50,0.08)',
-  cardShadowColor: '#17142A',
-  titleColor: '#1A1732',
-  subtitleColor: '#6F6B8A',
-  calmGhostSurface: '#EEEFF2',
-  playfulTint: Colors.primary10,
-  playfulTintStrong: Colors.primary20,
-  playfulAccent: Colors.primary100,
+  cardBorderColor: { same: 'rgba(132,129,253,0.14)' },
+  mutedBorder: 'border',
+  cardShadowColor: 'shadow',
+  titleColor: 'text',
+  subtitleColor: 'textMuted',
+  calmGhostSurface: 'surfaceSunken',
+  playfulTint: 'primaryTint',
+  playfulTintStrong: 'primaryTintStrong',
+  playfulAccent: 'primary',
   /**
    * Readable counterpart to `playfulAccent`. `playfulAccent` is
-   * `Colors.primary100`, which measures 2.90:1 on `playfulTint` — text or
-   * icons on a tinted ground must use this instead (5.21:1 on
-   * `playfulTint`, 4.71:1 on `playfulTintStrong`). Reserve `playfulAccent`
+   * `Colors.primary100`, which measures 2.90:1 on light `playfulTint` — text or
+   * icons on a tinted ground must use this instead (light: 5.21:1 on
+   * `playfulTint`, 4.71:1 on `playfulTintStrong`; dark: 5.46 and 4.79). Reserve `playfulAccent`
    * for borders, dots and solid fills, which carry no contrast duty.
    */
-  playfulAccentText: Colors.primaryText,
-  foodEmptyIconBg: 'rgba(132,129,253,0.10)',
-  foodEmptyIconTint: Colors.primaryText,
-  foodEmptyTitle: '#3D3958',
-  foodEmptySubtitle: '#8A869E',
-  foodFlatMealEyebrow: '#6B6788',
+  playfulAccentText: 'primaryText',
+  foodEmptyIconBg: 'primaryTint',
+  foodEmptyIconTint: 'primaryText',
+  foodEmptyTitle: 'text',
+  foodEmptySubtitle: 'textMuted',
+  foodFlatMealEyebrow: 'textMuted',
   /**
    * The two chat tokens more than one app reads. `mobile` and the dashboard
    * both had them, at the same values, in their own files — two copies of one
@@ -65,9 +73,21 @@ export const SharedHomeTokens = {
    * has no chat tokens at all and needs none — its chat screens are styled
    * from the general card family, which is what the rest of that app uses.
    */
-  chatMetaBg: 'rgba(132,129,253,0.10)',
-  chatMetaText: '#57527A',
-  welcomeBrandSurface: 'rgba(255,255,255,0.96)',
-  welcomeBrandBorder: 'rgba(26,23,50,0.08)',
-  welcomeNurseryText: '#5E58A6',
-} as const;
+  chatMetaBg: 'primaryTint',
+  chatMetaText: 'textMuted',
+  welcomeBrandSurface: 'surfaceFrosted',
+  welcomeBrandBorder: 'border',
+  // The welcome screen's nursery name keeps its own violet in light; no role is
+  // that colour, and the owner didn't ask for it to move.
+  welcomeNurseryText: { light: '#5E58A6', dark: 'primaryText' },
+} as const satisfies TokenDefinition;
+
+/** Where each colour key comes from, for the tests and the swatch sheet. */
+export const SharedHomeColourSources = colourSourcesOf(definition);
+
+export function sharedHomeTokens(scheme: ColorScheme) {
+  return resolveTokens(definition, scheme);
+}
+
+/** The light scheme, under the name every 0.7.x consumer reads. */
+export const SharedHomeTokens = sharedHomeTokens('light');

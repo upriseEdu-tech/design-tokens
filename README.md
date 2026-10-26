@@ -9,6 +9,19 @@ The design tokens the Uprise apps share: `teacher`, `mobile` and `dashboard`.
 and the ADR 0001 values: `LayoutRhythm`, `Typography`, `LaunchScreen`,
 `SystemChrome`, `IconTokens` and `TabletScale`.
 
+**Dark mode (0.8.0):** `Roles` holds one name per colour job, each with a light
+and a dark value. `sharedHomeTokens(scheme)`, `navigationShellTokens(scheme)`,
+`systemChrome(scheme)` and `launchScreenBackground(scheme)` resolve the
+screen-named tokens per scheme; the old constants are the light result. Two
+rules hold it together:
+- A dark value is always a role, or a brand accent that reads the same on both.
+  It is never a new hex outside `roles.ts`.
+- Light changed once, on purpose: the owner's consolidation of 2026-10-26 (see
+  `CHANGELOG.md`). `test/scheme-tokens.test.js` fails on any other light change.
+
+`scripts/derive-dark-roles.mjs` computes the derived dark values, and
+`scripts/render-swatch-sheet.mjs` renders the sheet the owner signs off.
+
 `LayoutRhythm` holds spacing BETWEEN components, in mobile points. The rule it
 serves is the half a token cannot hold: gaps belong to the parent. A component
 never margins itself away from its siblings — the screen or stack that owns

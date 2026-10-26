@@ -1,4 +1,6 @@
-import { Colors, androidElevatedCardSurface } from './colors.js';
+import { colourSourcesOf, resolveTokens } from './colourSource.js';
+import type { TokenDefinition } from './colourSource.js';
+import type { ColorScheme } from './roles.js';
 
 /**
  * The navigation shell's DATA. Both RN apps declared this identically — the
@@ -9,8 +11,13 @@ import { Colors, androidElevatedCardSurface } from './colors.js';
  * and its siblings call `Platform.select`, and the dashboard consumes this
  * package: importing react-native here would break it. Each RN app keeps its
  * own helpers and imports this object.
+ *
+ * Colours are sources resolved per scheme by `navigationShellTokens(scheme)`
+ * (see colourSource.ts). Three light values moved with the owner's
+ * consolidation (2026-10-26): the inactive tab colour #929292 (3.11:1 on white)
+ * became `textMuted`, and the two shadow colours became `shadow`.
  */
-export const NavigationShellTokens = {
+const definition = {
   android: {
     bottomSystemInsetFloor: 16,
   },
@@ -25,14 +32,14 @@ export const NavigationShellTokens = {
     iosLabelFontSize: 11,
     androidLabelFontSize: 12,
     labelLineHeight: 14,
-    activeColor: Colors.primary100,
-    inactiveColor: Colors.gray,
-    iosBackground: 'rgba(255,255,255,0.72)',
-    androidBackground: androidElevatedCardSurface,
-    borderColor: 'rgba(132,129,253,0.14)',
-    shadowColor: Colors.black,
-    activePill: 'rgba(132,129,253,0.10)',
-    activePillBorder: 'rgba(132,129,253,0.18)',
+    activeColor: 'primary',
+    inactiveColor: 'textMuted',
+    iosBackground: { light: 'rgba(255,255,255,0.72)', dark: 'surfaceFrosted' },
+    androidBackground: 'surfaceElevatedAndroid',
+    borderColor: { same: 'rgba(132,129,253,0.14)' },
+    shadowColor: 'shadow',
+    activePill: { same: 'rgba(132,129,253,0.10)' },
+    activePillBorder: { same: 'rgba(132,129,253,0.18)' },
   },
   header: {
     containerHeight: 104,
@@ -41,25 +48,35 @@ export const NavigationShellTokens = {
     androidTopPadding: 12,
     titleFontSize: 20,
     titleLineHeight: 26,
-    titleColor: '#1A1732',
+    titleColor: 'text',
     iconButtonSize: 42,
     iconSize: 20,
-    iosBackground: 'transparent',
-    androidBackground: 'transparent',
-    borderColor: 'transparent',
-    backButtonBgIOS: 'rgba(255,255,255,0.90)',
-    backButtonBgAndroid: androidElevatedCardSurface,
-    backButtonBorder: 'rgba(132,129,253,0.20)',
-    iconTint: Colors.primary100,
+    iosBackground: { same: 'transparent' },
+    androidBackground: { same: 'transparent' },
+    borderColor: { same: 'transparent' },
+    backButtonBgIOS: { light: 'rgba(255,255,255,0.90)', dark: 'surfaceFrosted' },
+    backButtonBgAndroid: 'surfaceElevatedAndroid',
+    backButtonBorder: { same: 'rgba(132,129,253,0.20)' },
+    iconTint: 'primary',
     pillHeight: 56,
     pillRadius: 22,
     pillHorizontalPadding: 12,
     /** Aligned with home rebrand priority-pair surfaces */
-    pillBackgroundIOS: 'rgba(255,255,255,0.94)',
-    pillBackgroundAndroid: androidElevatedCardSurface,
-    pillBorderColor: 'rgba(132,129,253,0.2)',
-    pillShadowColor: '#1A1732',
+    pillBackgroundIOS: 'surfaceFrosted',
+    pillBackgroundAndroid: 'surfaceElevatedAndroid',
+    pillBorderColor: { same: 'rgba(132,129,253,0.2)' },
+    pillShadowColor: 'shadow',
     pillShadowOpacityIOS: 0.1,
     pillShadowOpacityAndroid: 0.16,
   },
-} as const;
+} as const satisfies TokenDefinition;
+
+/** Where each colour key comes from, for the tests and the swatch sheet. */
+export const NavigationShellColourSources = colourSourcesOf(definition);
+
+export function navigationShellTokens(scheme: ColorScheme) {
+  return resolveTokens(definition, scheme);
+}
+
+/** The light scheme, under the name every 0.7.x consumer reads. */
+export const NavigationShellTokens = navigationShellTokens('light');

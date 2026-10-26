@@ -1,0 +1,108 @@
+{
+  "SharedHomeTokens": {
+    "screenBackground": "#F8F8FA",
+    "screenGlowTopOpacity": 0.28,
+    "screenGlowBottomOpacity": 0.22,
+    "screenAmbientGlowTop": "#E6E6EA",
+    "screenAmbientGlowBottom": "#EBEBEF",
+    "pageHorizontalPadding": 18,
+    "pageTopPadding": 14,
+    "sectionGap": 14,
+    "priorityClusterGap": 10,
+    "priorityPairBorder": "rgba(132,129,253,0.2)",
+    "priorityPairIconShellBg": "#F0EFF5",
+    "priorityPairIconShellBorder": "rgba(132,129,253,0.14)",
+    "priorityPairShadowOpacity": 0.075,
+    "sectionHeaderGap": 8,
+    "cardRadius": 20,
+    "cardInnerRadius": 16,
+    "chipRadius": 12,
+    "cardBorderColor": "rgba(132,129,253,0.14)",
+    "mutedBorder": "rgba(26,23,50,0.08)",
+    "cardShadowColor": "#17142A",
+    "titleColor": "#1A1732",
+    "subtitleColor": "#6F6B8A",
+    "calmGhostSurface": "#EEEFF2",
+    "playfulTint": "#F3F2FF",
+    "playfulTintStrong": "#E6E6FF",
+    "playfulAccent": "#8481FD",
+    "playfulAccentText": "#4C48FC",
+    "foodEmptyIconBg": "rgba(132,129,253,0.10)",
+    "foodEmptyIconTint": "#4C48FC",
+    "foodEmptyTitle": "#3D3958",
+    "foodEmptySubtitle": "#8A869E",
+    "foodFlatMealEyebrow": "#6B6788",
+    "chatMetaBg": "rgba(132,129,253,0.10)",
+    "chatMetaText": "#57527A",
+    "welcomeBrandSurface": "rgba(255,255,255,0.96)",
+    "welcomeBrandBorder": "rgba(26,23,50,0.08)",
+    "welcomeNurseryText": "#5E58A6"
+  },
+  "NavigationShellTokens": {
+    "android": {
+      "bottomSystemInsetFloor": 16
+    },
+    "tabBar": {
+      "minHeight": 72,
+      "borderRadius": 22,
+      "horizontalPadding": 14,
+      "itemVerticalPadding": 6,
+      "itemHorizontalPadding": 6,
+      "iosIconSize": 19,
+      "androidIconSize": 20,
+      "iosLabelFontSize": 11,
+      "androidLabelFontSize": 12,
+      "labelLineHeight": 14,
+      "activeColor": "#8481FD",
+      "inactiveColor": "#929292",
+      "iosBackground": "rgba(255,255,255,0.72)",
+      "androidBackground": "#F5F5F9",
+      "borderColor": "rgba(132,129,253,0.14)",
+      "shadowColor": "#000000",
+      "activePill": "rgba(132,129,253,0.10)",
+      "activePillBorder": "rgba(132,129,253,0.18)"
+    },
+    "header": {
+      "containerHeight": 104,
+      "horizontalPadding": 14,
+      "iosTopPadding": 34,
+      "androidTopPadding": 12,
+      "titleFontSize": 20,
+      "titleLineHeight": 26,
+      "titleColor": "#1A1732",
+      "iconButtonSize": 42,
+      "iconSize": 20,
+      "iosBackground": "transparent",
+      "androidBackground": "transparent",
+      "borderColor": "transparent",
+      "backButtonBgIOS": "rgba(255,255,255,0.90)",
+      "backButtonBgAndroid": "#F5F5F9",
+      "backButtonBorder": "rgba(132,129,253,0.20)",
+      "iconTint": "#8481FD",
+      "pillHeight": 56,
+      "pillRadius": 22,
+      "pillHorizontalPadding": 12,
+      "pillBackgroundIOS": "rgba(255,255,255,0.94)",
+      "pillBackgroundAndroid": "#F5F5F9",
+      "pillBorderColor": "rgba(132,129,253,0.2)",
+      "pillShadowColor": "#1A1732",
+      "pillShadowOpacityIOS": 0.1,
+      "pillShadowOpacityAndroid": 0.16
+    }
+  },
+  "SystemChrome": {
+    "colorScheme": "light",
+    "statusBar": "dark-content"
+  },
+  "LaunchScreen": {
+    "markSize": {
+      "phone": 96,
+      "tablet": 188
+    },
+    "background": "#F8F8FA",
+    "android": {
+      "splashCanvas": 288,
+      "splashIconDiameter": 192
+    }
+  }
+}
