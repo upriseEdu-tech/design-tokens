@@ -11,6 +11,9 @@
  * places.
  */
 export { Colors, rebrandScreenCanvas, androidElevatedCardSurface } from './colors.js';
+export { Roles, LightRoles, DarkRoles, BrandFamilies } from './roles.js';
+export type { ColorScheme, RoleName } from './roles.js';
+export { contrastRatio, compositeOver } from './contrast.js';
 export { SharedHomeTokens } from './home.js';
 export { NavigationShellTokens } from './navigationShell.js';
 export {
