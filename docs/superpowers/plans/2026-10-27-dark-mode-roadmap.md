@@ -6,8 +6,8 @@ The spec spans five repos that ship in a fixed order. Every later plan consumes 
 
 | # | Plan | Repos | Needs before writing | Status |
 |---|---|---|---|---|
-| 1 | Role table and per-scheme tokens | design-tokens | — | **Written** (`2026-10-27-dark-mode-plan-1-design-tokens.md`) |
-| 2 | Dashboard dark mode | dashboard | Plan 1 merged (0.8.0 API fixed); publish waits for the owner's swatch sign-off | |
+| 1 | Role table and per-scheme tokens | design-tokens | — | **Built**, swatch sheet signed off 2026-10-27; PR and publish pending (`2026-10-27-dark-mode-plan-1-design-tokens.md`) |
+| 2 | Dashboard dark mode | dashboard | Plan 1 merged and 0.8.0 published | **Written** (`2026-10-27-dark-mode-plan-2-dashboard.md`); runs once 0.8.0 is published |
 | 3 | rn-ui theme and migration | rn-ui | Plan 1 merged | |
 | 4 | Parent and Staff apps | mobile, teacher | Plan 3 published (rn-ui 0.4.0) | |
 
