@@ -1,4 +1,6 @@
 import { rebrandScreenCanvas } from './colors.js';
+import { Roles } from './roles.js';
+import type { ColorScheme } from './roles.js';
 
 /**
  * The values ADR 0001 decided (docs/adr/0001-mobile-platform-design-rules.md).
@@ -82,9 +84,10 @@ export const Typography = {
  * The native launch screen, and the JS splash that has to match it.
  *
  * The mark is centred ignoring safe areas so it does not shift between
- * devices, and the background is the screen canvas in BOTH appearances: the
- * product is light-only, so a dark launch screen would flash dark and snap to
- * a light app.
+ * devices, and the background is the screen canvas of the DEVICE's appearance
+ * (`launchScreenBackground(scheme)`). The launch screen draws before the app
+ * has read the user's own choice, so it follows the device only (dark-mode
+ * spec 2026-10-26); `background` stays the light canvas for 0.7.x readers.
  *
  * Anything else a splash wants to show — progress, an OTA status, a tagline —
  * hangs below the mark and never moves it. That is what makes the handoff from
@@ -109,25 +112,32 @@ export const LaunchScreen = {
   },
 };
 
+export function launchScreenBackground(scheme: ColorScheme): string {
+  return Roles[scheme].canvas;
+}
+
 /**
- * System chrome — the status bar, native dialogs, pickers, the keyboard.
+ * System chrome — the status bar, native dialogs, pickers, the keyboard —
+ * follows the scheme the app resolved: the device's, or the user's own choice
+ * in Settings (dark-mode spec 2026-10-26).
  *
- * The product is light-only, so chrome is pinned to light regardless of the
- * device setting. Android's `DayNight` theme is why a native picker could go
- * dark inside a light app.
+ * A manual choice has to override the system appearance
+ * (`Appearance.setColorScheme`), not just the React tree — otherwise the
+ * keyboard and alerts stay on the device's setting.
  *
  * A screen with a dark or coloured header overrides `statusBar` at the
  * navigator level, never through a global call: the app-wide iOS status bar
  * API is a no-op from iOS 27 on.
- *
- * If a dark theme is ever added, a manual theme choice has to override the
- * system appearance (`Appearance.setColorScheme`), not just the React tree —
- * otherwise the keyboard and alerts stay on the device's setting.
  */
-export const SystemChrome = {
-  colorScheme: 'light',
-  statusBar: 'dark-content',
-};
+export function systemChrome(scheme: ColorScheme) {
+  return {
+    colorScheme: scheme,
+    statusBar: scheme === 'dark' ? 'light-content' : 'dark-content',
+  } as const;
+}
+
+/** The light scheme, under the name every 0.7.x consumer reads. */
+export const SystemChrome = systemChrome('light');
 
 /**
  * Icon geometry, in mobile points. Solar Linear (ADR §6), drawn as SVG.

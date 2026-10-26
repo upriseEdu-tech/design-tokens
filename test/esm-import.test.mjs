@@ -11,6 +11,15 @@ test('the ESM build loads in plain Node', async () => {
   assert.equal(esm.IconConcepts.pickup, 'car');
 });
 
+test('the dark-mode exports load through ESM too', async () => {
+  const esm = await import('../dist/esm/index.js');
+  assert.equal(esm.Roles.dark.canvas, '#121214');
+  assert.equal(esm.sharedHomeTokens('dark').titleColor, '#F2F2F5');
+  assert.equal(esm.navigationShellTokens('dark').header.titleColor, '#F2F2F5');
+  assert.equal(esm.systemChrome('dark').statusBar, 'light-content');
+  assert.equal(esm.contrastRatio('#FFFFFF', '#000000'), 21);
+});
+
 test('the dashboard items, actions and success kinds exist in both languages', async () => {
   const { FeedbackMessages, feedbackForSuccess } = await import('../dist/esm/index.js');
   for (const locale of ['en', 'ar']) {

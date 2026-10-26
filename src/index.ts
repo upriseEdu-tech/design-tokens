@@ -14,14 +14,18 @@ export { Colors, rebrandScreenCanvas, androidElevatedCardSurface } from './color
 export { Roles, LightRoles, DarkRoles, BrandFamilies } from './roles.js';
 export type { ColorScheme, RoleName } from './roles.js';
 export { contrastRatio, compositeOver } from './contrast.js';
-export { SharedHomeTokens } from './home.js';
-export { NavigationShellTokens } from './navigationShell.js';
+export { SharedHomeTokens, SharedHomeColourSources, sharedHomeTokens } from './home.js';
+export { NavigationShellTokens, NavigationShellColourSources, navigationShellTokens } from './navigationShell.js';
+export { resolveColour } from './colourSource.js';
+export type { ColourSource } from './colourSource.js';
 export {
   TabletScale,
   LayoutRhythm,
   Typography,
   LaunchScreen,
   SystemChrome,
+  systemChrome,
+  launchScreenBackground,
   IconTokens,
 } from './mobilePlatform.js';
 export {
