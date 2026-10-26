@@ -151,6 +151,8 @@ matches (login gutter, screen bottom), until a tablet layout pass decides whethe
 - **Position:** dead centre of the screen, ignoring safe areas, so it doesn't shift between devices.
 - **Background:** the screen canvas token (`rebrandScreenCanvas`) in light *and* dark appearance. The product is
   light-only, so a dark launch screen would flash dark and then snap to a light app.
+  *Superseded 2026-10-27 by the dark-mode spec (design-tokens 0.8.0): the background is the canvas of the device's
+  appearance, `launchScreenBackground(scheme)`.*
 - **Handoff:** the in-app splash draws the same mark at the same size in the same spot. Anything else (progress, OTA
   download status, a tagline) hangs *below* the mark and never moves it. iOS keeps the storyboard up as the root view's
   loading view while JS loads, so there is no blank frame.
@@ -201,6 +203,8 @@ from a centred mark to the illustration.
 - Android's theme is `DayNight`, so native dialogs and pickers go dark on a dark-mode device while the app stays light.
 
 **Recommendation:**
+- *Superseded 2026-10-27 by the dark-mode spec (design-tokens 0.8.0): chrome follows the resolved scheme,
+  `systemChrome(scheme)`, and the native light pins below come off when the apps ship dark mode.*
 - **The product is light-only.** System chrome is pinned to light regardless of the device setting:
   - iOS: `UIUserInterfaceStyle = Light`.
   - Android: a `Light` app theme.
@@ -258,7 +262,7 @@ Decided 2026-09-21 by Fady Shawky.
 | 2 Arabic / RTL typography | **Accepted, amended:** the family is **Cairo**, not IBM Plex Sans Arabic. The RTL rules (tracking 0, no forced uppercase, the mirroring list) are accepted unchanged — they are correctness, not preference. |
 | 3 Launch screen | **Accepted** as proposed. |
 | 4 App icon | Master mark decided 2026-09-17 (the sun logo). Mechanics accepted: opaque 1024px iOS image, Android adaptive icon with a monochrome layer. Still open: moving the master SVG into `assets/brand/` here. |
-| 5 Status bar / system chrome | **Accepted** as proposed. Light-only, pinned. |
+| 5 Status bar / system chrome | **Accepted** as proposed. Light-only, pinned. **Superseded 2026-10-27:** dark mode (spec `2026-10-26-dark-mode-design.md`, design-tokens 0.8.0); chrome follows the scheme. |
 | 6 Icon set | **Accepted:** Solar Linear as SVG across mobile, teacher and the dashboard. Migration starts now rather than waiting for the release wave. |
 | 7 Mobile rules | **Accepted** as proposed. |
 

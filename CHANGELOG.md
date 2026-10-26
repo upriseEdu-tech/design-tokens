@@ -2,10 +2,10 @@
 
 ## [0.8.0] - 2026-10-27
 
-Dark mode's foundation (spec `docs/superpowers/specs/2026-10-26-dark-mode-design.md`). Every existing export keeps its name; consumers pin exact versions, so nothing moves until an app bumps.
+Dark mode's foundation (spec `docs/superpowers/specs/2026-10-26-dark-mode-design.md`). Every existing export keeps its name. Consumers depend on `^0.7.2`, and a 0.x caret range excludes 0.8.0, so nothing moves until an app bumps on purpose.
 
 ### Added
-- `Roles` (`LightRoles`, `DarkRoles`), with `ColorScheme`, `RoleName` and `BrandFamilies`: 41 colour roles, each with a light value and a graphite dark value. Every text role reaches AA (4.5:1) on its grounds in both schemes.
+- `Roles` (`LightRoles`, `DarkRoles`), with `ColorScheme`, `RoleName` and `BrandFamilies`: 40 colour roles, each with a light value and a graphite dark value. Every text role reaches AA (4.5:1) on its grounds in both schemes. There is no on-accent text role yet: white fails AA on seven of the eight solid accents, so that role waits for the owner's call in the rn-ui plan.
 - `sharedHomeTokens(scheme)`, `navigationShellTokens(scheme)`, `systemChrome(scheme)` and `launchScreenBackground(scheme)`. `SharedHomeColourSources`, `NavigationShellColourSources`, `resolveColour` and `ColourSource` say where each colour comes from.
 - `contrastRatio(foreground, background)` and `compositeOver(foreground, alpha, background)`: the WCAG maths behind every ratio in this package, for opaque `#RRGGBB` only.
 
@@ -29,6 +29,11 @@ The owner chose one value per job (2026-10-26). These light values move; everyth
 | `NavigationShellTokens.header.pillShadowColor` | `#1A1732` | `#17142A` |
 
 The `successText` and `dangerText` roles are darker than `Colors.greenText` and `Colors.redText` (`#357733` and `#C63234`). Those two measured 4.47:1 on the canvas and 4.27:1 on the chip surface. The `Colors` enum itself is unchanged.
+
+### Upgrading
+- **Colour types widen** from literals and `Colors` enum members to `string` in `SharedHomeTokens` and `NavigationShellTokens`. Number types keep their literals. rn-ui 0.3.10 type-checks against 0.8.0 unchanged.
+- **rn-ui first.** rn-ui's peer range is `^0.7.2`, which excludes 0.8.0, so an app that bumps design-tokens before rn-ui widens its peer range gets an npm `ERESOLVE` error.
+- **`check-token-drift` compares against more values**, because the roles are tokens too. On the dashboard, `src/components/rebrand/StatusPill.jsx` (`#F1F0F6`, now `LightRoles.surfaceSunken`) fails `npm run lint` after the bump until it reads the token. Dark-mode Plan 2 sweeps it.
 
 ## Earlier versions
 

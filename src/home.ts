@@ -46,9 +46,9 @@ const definition = {
   playfulAccent: 'primary',
   /**
    * Readable counterpart to `playfulAccent`. `playfulAccent` is
-   * `Colors.primary100`, which measures 2.90:1 on `playfulTint` — text or
-   * icons on a tinted ground must use this instead (5.21:1 on
-   * `playfulTint`, 4.71:1 on `playfulTintStrong`). Reserve `playfulAccent`
+   * `Colors.primary100`, which measures 2.90:1 on light `playfulTint` — text or
+   * icons on a tinted ground must use this instead (light: 5.21:1 on
+   * `playfulTint`, 4.71:1 on `playfulTintStrong`; dark: 5.46 and 4.79). Reserve `playfulAccent`
    * for borders, dots and solid fills, which carry no contrast duty.
    */
   playfulAccentText: 'primaryText',
