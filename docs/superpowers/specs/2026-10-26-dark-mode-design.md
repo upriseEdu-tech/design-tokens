@@ -98,11 +98,12 @@ The 133 files that import `@upriseedu-tech/design-tokens` directly take icons an
 
 **Roles.** A new `src/roles.ts` exports `Roles = { light, dark }`. Both sides have identical keys, and the `dark` side's type is the `light` side's keys, so a missing dark value fails `tsc`. Roughly 35 roles:
 
-- **Neutrals:** `canvas`, `surface`, `surfaceSunken` (chips, segmented controls), `surfaceRaised` (sheets, popovers), `surfaceFrosted` (the iOS translucent card), `border`, `borderStrong`, `text`, `textMuted`, `textOnAccent`, `shadow`, `scrim`.
+- **Neutrals:** `canvas`, `surface`, `surfaceSunken` (chips, segmented controls), `surfaceRaised` (sheets, popovers), `surfaceFrosted` (the iOS translucent card), `border`, `borderStrong`, `text`, `textMuted`, `shadow`, `scrim`.
 - **Per brand family** (`primary`, `teal`, `blue`, `coral`, `orange`, `yellow`):
   - `<family>` is the 100 value, the same in both modes.
   - `<family>Tint` and `<family>TintStrong`: light uses today's 10 and 20; dark uses the 100 composited at about 16% and 24% over `surface`, stored **opaque** so contrast maths is exact and Android elevation never stacks alpha.
   - `<family>Text`: light uses today's `*Text`; dark is lightened until it reaches at least 4.5:1 on dark `<family>TintStrong`.
+- **No on-accent text role yet** (as built, 2026-10-27). White measures 1.31–3.35:1 on seven of the eight solid accents, so one white role can't serve them. The owner picks the on-accent text colour with Plan 3.
 - **Status:** `success`, `successText`, `danger`, `dangerText`. Today's `red` `#CE3C3E` measures 3.51:1 on graphite `surface`, which fails, so dark `dangerText` must be lighter (`#FF6B6E` measures 6.14:1).
 
 Starting values from the approved mockup. Graphite measures:

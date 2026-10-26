@@ -71,7 +71,7 @@
   - `LightRoles` (`as const`), `type RoleName = keyof typeof LightRoles`, `DarkRoles: { readonly [K in RoleName]: string }`, `Roles: { light: typeof LightRoles; dark: typeof DarkRoles }`
   - `BrandFamilies = ['primary', 'teal', 'blue', 'coral', 'orange', 'yellow'] as const`
 
-**Role values** (41 roles; the spec's "roughly 35"):
+**Role values** (40 roles as built; the spec's "roughly 35". `textOnAccent` was dropped in the final review: white failed AA on seven of eight accents):
 
 | Role | Light | Dark |
 |---|---|---|
@@ -85,7 +85,6 @@
 | `borderStrong` | `rgba(26,23,50,0.12)` | `rgba(255,255,255,0.12)` |
 | `text` | `#1A1732` | `#F2F2F5` |
 | `textMuted` | `Colors.neutralText` (`#63607E`) | `#A1A1AA` |
-| `textOnAccent` | `#FFFFFF` | `#FFFFFF` |
 | `shadow` | `#17142A` | `#000000` |
 | `photoScrim` | `transparent` | `rgba(0,0,0,0.12)` |
 | `<family>` ×6 | `Colors.<family>100` | same |
@@ -318,7 +317,7 @@ It mirrors `scripts/render-icon-review.mjs`: it reads `../dist/cjs`, writes an A
 - [ ] **Step 2: Render it**
 
 Run: `npm run build && node scripts/render-swatch-sheet.mjs > /tmp/swatch-sheet.html` (or the session scratchpad)
-Expected: one section per item above, 41 role rows, 13 before/after pairs.
+Expected: one section per item above, 40 role rows, 13 before/after pairs.
 
 - [ ] **Step 3: Publish it as a private Artifact and send the owner the link**
 
