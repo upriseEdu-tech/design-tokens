@@ -67,3 +67,8 @@ test('feedback has a warning glyph of its own, apart from error', () => {
   assert.equal(IconFeedback.warning, 'danger');
   assert.notEqual(IconFeedback.warning, IconFeedback.error);
 });
+
+test('the Light / Dark setting names the moon, as the dashboard\'s Dark option draws it', () => {
+  assert.equal(IconConcepts.appearance, 'moon');
+  assert.equal(solarLinearName(IconConcepts.appearance), 'moon-linear');
+});
