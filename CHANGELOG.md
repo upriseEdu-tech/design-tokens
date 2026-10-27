@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.8.1] - 2026-10-27
+
+### Added
+- `IconConcepts.appearance` (`moon`) for the apps' Light / Dark setting. It is the glyph the dashboard's Dark option already draws (`solar:moon-linear`).
+
 ## [0.8.0] - 2026-10-27
 
 Dark mode's foundation (spec `docs/superpowers/specs/2026-10-26-dark-mode-design.md`). Every existing export keeps its name. Consumers depend on `^0.7.2`, and a 0.x caret range excludes 0.8.0, so nothing moves until an app bumps on purpose.

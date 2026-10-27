@@ -65,6 +65,7 @@ export const IconConcepts = {
   more: 'widget-4',
   birthdays: 'gift',
   language: 'global',
+  appearance: 'moon',
   password: 'lock-password',
 } as const;
 
