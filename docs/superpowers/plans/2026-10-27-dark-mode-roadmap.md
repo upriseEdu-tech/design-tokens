@@ -6,9 +6,9 @@ The spec spans five repos that ship in a fixed order. Every later plan consumes 
 
 | # | Plan | Repos | Needs before writing | Status |
 |---|---|---|---|---|
-| 1 | Role table and per-scheme tokens | design-tokens | — | **Built**, swatch sheet signed off 2026-10-27; PR and publish pending (`2026-10-27-dark-mode-plan-1-design-tokens.md`) |
-| 2 | Dashboard dark mode | dashboard | Plan 1 merged and 0.8.0 published | **Written** (`2026-10-27-dark-mode-plan-2-dashboard.md`); runs once 0.8.0 is published |
-| 3 | rn-ui theme and migration | rn-ui | Plan 1 merged | |
+| 1 | Role table and per-scheme tokens | design-tokens | — | **Done 2026-10-27**: #10 merged, 0.8.0 published (`2026-10-27-dark-mode-plan-1-design-tokens.md`) |
+| 2 | Dashboard dark mode | dashboard | Plan 1 merged and 0.8.0 published | **Built 2026-10-27** on dashboard `feat/dark-mode`; final review, then PR (`2026-10-27-dark-mode-plan-2-dashboard.md`) |
+| 3 | rn-ui theme and migration | rn-ui | Plan 1 merged | **Written** (`2026-10-27-dark-mode-plan-3-rn-ui.md`) |
 | 4 | Parent and Staff apps | mobile, teacher | Plan 3 published (rn-ui 0.4.0) | |
 
 **Order:** 1 → (2 ∥ 3) → 4. Plans 2 and 3 touch different repos and run in parallel. Plan 4 changes both apps in one piece of work, with the same names in each.
