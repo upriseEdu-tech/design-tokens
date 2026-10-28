@@ -7,9 +7,9 @@ The spec spans five repos that ship in a fixed order. Every later plan consumes 
 | # | Plan | Repos | Needs before writing | Status |
 |---|---|---|---|---|
 | 1 | Role table and per-scheme tokens | design-tokens | — | **Done 2026-10-27**: #10 merged, 0.8.0 published (`2026-10-27-dark-mode-plan-1-design-tokens.md`) |
-| 2 | Dashboard dark mode | dashboard | Plan 1 merged and 0.8.0 published | **Built 2026-10-27** on dashboard `feat/dark-mode`; final review, then PR (`2026-10-27-dark-mode-plan-2-dashboard.md`) |
-| 3 | rn-ui theme and migration | rn-ui | Plan 1 merged | **Built 2026-10-27**, final review done, upriseEdu-tech/rn-ui#1 open; publish 0.4.0 on the owner's go (`2026-10-27-dark-mode-plan-3-rn-ui.md`) |
-| 4 | Parent and Staff apps | mobile, teacher | Plan 3 published (rn-ui 0.4.0, with Plan 4's Task 0) and design-tokens 0.8.1 | **Written 2026-10-27** (`2026-10-27-dark-mode-plan-4-apps.md`) |
+| 2 | Dashboard dark mode | dashboard | Plan 1 merged and 0.8.0 published | **Live 2026-10-27**: dashboard#97 merged and deployed (`2026-10-27-dark-mode-plan-2-dashboard.md`) |
+| 3 | rn-ui theme and migration | rn-ui | Plan 1 merged | **Done 2026-10-27**: rn-ui#1 merged, 0.4.0 published; 0.4.1 (rn-ui#2, two Settings-row fixes from Plan 4's device run) published 2026-10-28 (`2026-10-27-dark-mode-plan-3-rn-ui.md`) |
+| 4 | Parent and Staff apps | mobile, teacher | Plan 3 published (rn-ui 0.4.0, with Plan 4's Task 0) and design-tokens 0.8.1 | **Built 2026-10-28**: final review done; mobile#142 and teacher#189 open into `preview/consistency-2026-10`, on rn-ui 0.4.1; a store build only (`2026-10-27-dark-mode-plan-4-apps.md`) |
 
 **Order:** 1 → (2 ∥ 3) → 4. Plans 2 and 3 touch different repos and run in parallel. Plan 4 changes both apps in one piece of work, with the same names in each.
 
