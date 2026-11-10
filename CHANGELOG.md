@@ -1,10 +1,14 @@
 # Changelog
 
+## [Unreleased]
+
+### Added
+- Error text for the 44 other backend codes that shipped without any since the parity fixture was last synced (backend@8a11fca; now @26d864b): 38 get their own English and Arabic sentence (student billing, billing plans, the invoice review, Delete permanently, `SPECIAL_DAY_EXISTS`, `BILLING_ADMIN_ONLY`), mostly the words the dashboard and the parent app already show for them; `SUBSCRIPTION_INVALID` and `INVALID_MONTH` join the validation family; `PENDING_REVIEW` (a receipt status) and the thumbnail job's `MISSING_FILE`, `NOT_GALLERY_URL` and `NO_FRAME` never reach an app and are listed as such in `scripts/sync-backend-codes.mjs`.
+
 ## [0.8.2] - 2026-11-10
 
 ### Added
 - Error text for the two codes the repeatable-activities work added to the backend (#249, 2026-11-09), in English and Arabic: `SCHEDULE_DUPLICATE` (409: a child's entry moved onto a minute that child already has for the activity) and `ACTIVITY_SHARED` (403: an owner flipping Repeatable on a status other nurseries use; the same words as the dashboard's locked switch). Until now the first read "Couldn't save the schedule. Try again."
-- Error text for the 44 other backend codes that shipped without any since the parity fixture was last synced (backend@8a11fca; now @26d864b): 38 get their own English and Arabic sentence (student billing, billing plans, the invoice review, Delete permanently, `SPECIAL_DAY_EXISTS`, `BILLING_ADMIN_ONLY`), mostly the words the dashboard and the parent app already show for them; `SUBSCRIPTION_INVALID` and `INVALID_MONTH` join the validation family; `PENDING_REVIEW` (a receipt status) and the thumbnail job's `MISSING_FILE`, `NOT_GALLERY_URL` and `NO_FRAME` never reach an app and are listed as such in `scripts/sync-backend-codes.mjs`.
 
 ## [0.8.1] - 2026-10-27
 
