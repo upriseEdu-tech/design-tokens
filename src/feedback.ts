@@ -174,6 +174,64 @@ const en = {
       'This child already has this activity at that time. Change the time, or edit the entry that is there.',
     // Same text as the dashboard's locked Repeatable switch.
     ACTIVITY_SHARED: 'This status is shared with other nurseries. Ask Uprise to change it.',
+    SPECIAL_DAY_EXISTS: 'This branch already has a special day on that date.',
+    // An Owner sending a branch's discount, trial, tablets or modules, or a nursery's part-time
+    // price: Super_Admin and Admin set those (owner, 2026-10-28).
+    BILLING_ADMIN_ONLY: 'These settings are set by Uprise. Ask Uprise to change them.',
+
+    // ---- student billing (backend #208-#225). Where a sentence needs no number from `details`,
+    // it is the one the dashboard's bill and settings screens or the parent app's Bills already
+    // show, so a screen without its own reads the same.
+    STUDENT_BILLING_DISABLED: 'Student billing is off for this nursery.',
+    STUDENT_BILLING_BRANCH_ADMIN_OFF: 'Only the owner sees student billing for this nursery.',
+    SUBSCRIPTION_TYPE_TAKEN: 'This nursery already sells that subscription.',
+    SUBSCRIPTION_IN_USE: 'Children are still on this subscription. Move them first.',
+    PAYMENT_METHOD_DISABLED: 'That payment method is off for this nursery.',
+    // Sent for a dozen reasons (a sent bill edited, a paid one given a receipt, a void voided
+    // again), so the sentence names none of them.
+    BILL_LOCKED: 'This bill can no longer take this change.',
+    BILL_NEEDS_DECISION: 'This bill is not ready: it waits for a decision, or for the 1st to complete it.',
+    // A payment above the balance, or an adjustment that takes the total below what was paid.
+    PAYMENT_EXCEEDS_BALANCE: "That amount doesn't fit the bill's balance. Check it and try again.",
+    DECISION_RESOLVED: 'This decision was answered already.',
+    DECISION_CHOICE_INVALID: "That answer doesn't fit this decision. Reload the bill and try again.",
+    STUDENT_HAS_OPEN_BILL: 'This child still owes on a sent bill. Add an item to that bill instead.',
+    // A move to another nursery: a warning, and the same request sent again with
+    // confirm_unpaid_bills goes through (owner, 2026-10-29).
+    STUDENT_HAS_UNPAID_BILLS:
+      'This child has unpaid bills at the nursery they are leaving. Confirm the move to go ahead.',
+    ATTEMPT_ALREADY_OPEN: 'A receipt for this bill is already waiting for review.',
+    ATTEMPT_NOT_PENDING: 'This receipt was already reviewed.',
+    RECEIPT_TYPE_UNSUPPORTED: 'Choose a JPEG or PNG image of the transfer.',
+    RECEIPT_TOO_LARGE: 'This image is larger than 10 MB. Choose a smaller one.',
+    RECEIPT_PURGED: 'This receipt was deleted 6 months after it was uploaded.',
+
+    // ---- billing plans (prepaid seats, 2026-10-29), without the seat numbers and dates the
+    // dashboard reads from `details`.
+    STUDENT_CAPACITY_REACHED: 'Student capacity reached: every seat is taken. Ask Uprise to add seats.',
+    PLAN_SEATS_BELOW_ENROLLED: 'Seats cannot be set below the number of children already enrolled.',
+    BRANCH_SEATS_REQUIRED: 'Every branch needs its own seats.',
+    BRANCH_SEATS_EXCEED_PLAN: "The branch seats don't fit the plan's seats.",
+    SEAT_CHANGE_MIXED: 'Raising the seats of one branch while cutting another cannot be saved together.',
+    BRANCH_NOT_IN_NURSERY: 'One of the branches does not belong to this nursery.',
+    NO_SCHEDULED_CHANGE: 'There is no scheduled change to cancel.',
+    PLAN_CHANGE_SCHEDULED: 'A seat change is already scheduled. Cancel it first, then change the seats.',
+
+    // ---- the invoices Uprise sends nurseries (Super_Admin's draft review, backend #196-#203).
+    INVOICE_EXISTS: 'An invoice already exists for this nursery and billing period.',
+    INVOICE_LOCKED: 'This invoice is locked and cannot take this change.',
+    INVOICE_NOT_DRAFT: 'This invoice is no longer a draft.',
+    INVOICE_NOT_ISSUED: 'Only an approved invoice can take this action.',
+    NOTHING_TO_BILL: 'The total is 0, so there is nothing to bill. Delete the draft or correct its lines.',
+    NURSERY_NOT_ELIGIBLE: 'This nursery is not operating, so it cannot be billed.',
+    INVALID_INVOICE_ITEM: 'One of the lines is not allowed. Check the lines and try again.',
+    INVALID_DUE_DATE: 'The due date cannot be earlier than today.',
+
+    // ---- Delete permanently, on the dashboard's Deleted data tabs.
+    PURGE_CONFIRM_MISMATCH: "The name you typed doesn't match.",
+    RECORD_NOT_DELETED: "This record isn't deleted anymore, so it can't be deleted permanently.",
+    // Also a restore refused once the purge has started; the dashboard words that case itself.
+    RECORD_PURGED: 'This record has already been deleted permanently.',
   },
 };
 
@@ -336,6 +394,48 @@ const ar: Catalogue = {
     KEY_CONFLICT: 'قام شخص آخر بتغيير هذا في الوقت نفسه. أعد التحميل وحاول مرة أخرى.',
     SCHEDULE_DUPLICATE: 'هذا النشاط مسجّل لهذا الطفل في هذا الوقت بالفعل. غيّر الوقت أو عدّل الإدخال الموجود.',
     ACTIVITY_SHARED: 'هذه الحالة مشتركة مع حضانات أخرى. اطلب من Uprise تغييرها.',
+    SPECIAL_DAY_EXISTS: 'لدى هذا الفرع يوم خاص في هذا التاريخ بالفعل.',
+    BILLING_ADMIN_ONLY: 'تحدد Uprise هذه الإعدادات. اطلب من Uprise تغييرها.',
+
+    STUDENT_BILLING_DISABLED: 'فوترة الطلاب متوقفة لهذه الحضانة.',
+    STUDENT_BILLING_BRANCH_ADMIN_OFF: 'يرى المالك وحده فوترة الطلاب في هذه الحضانة.',
+    SUBSCRIPTION_TYPE_TAKEN: 'هذه الحضانة تبيع هذا الاشتراك بالفعل.',
+    SUBSCRIPTION_IN_USE: 'لا يزال هناك أطفال على هذا الاشتراك. انقلهم أولًا.',
+    PAYMENT_METHOD_DISABLED: 'طريقة الدفع هذه متوقفة لهذه الحضانة.',
+    BILL_LOCKED: 'لم تعد هذه الفاتورة تقبل هذا التغيير.',
+    BILL_NEEDS_DECISION: 'هذه الفاتورة ليست جاهزة: فهي تنتظر قرارًا، أو تنتظر أول الشهر لتكتمل.',
+    PAYMENT_EXCEEDS_BALANCE: 'هذا المبلغ لا يتوافق مع رصيد الفاتورة. راجعه وحاول مرة أخرى.',
+    DECISION_RESOLVED: 'تمت الإجابة عن هذا القرار بالفعل.',
+    DECISION_CHOICE_INVALID: 'هذه الإجابة لا تناسب هذا القرار. أعد تحميل الفاتورة وحاول مرة أخرى.',
+    STUDENT_HAS_OPEN_BILL: 'على هذا الطفل مبلغ مستحق في فاتورة مرسلة. أضف بندًا إلى تلك الفاتورة بدلًا من ذلك.',
+    STUDENT_HAS_UNPAID_BILLS: 'على هذا الطفل فواتير غير مدفوعة في الحضانة التي يغادرها. أكّد النقل للمتابعة.',
+    ATTEMPT_ALREADY_OPEN: 'يوجد إيصال لهذه الفاتورة قيد المراجعة بالفعل.',
+    ATTEMPT_NOT_PENDING: 'تمت مراجعة هذا الإيصال بالفعل.',
+    RECEIPT_TYPE_UNSUPPORTED: 'اختر صورة JPEG أو PNG للتحويل.',
+    RECEIPT_TOO_LARGE: 'حجم هذه الصورة أكبر من 10 ميجابايت. اختر صورة أصغر.',
+    RECEIPT_PURGED: 'تم حذف هذا الإيصال بعد 6 أشهر من رفعه.',
+
+    STUDENT_CAPACITY_REACHED: 'اكتمل عدد المقاعد: كل المقاعد مستخدمة. اطلب من Uprise إضافة مقاعد.',
+    PLAN_SEATS_BELOW_ENROLLED: 'لا يمكن تحديد عدد المقاعد بأقل من عدد الأطفال المسجّلين بالفعل.',
+    BRANCH_SEATS_REQUIRED: 'يحتاج كل فرع إلى مقاعده الخاصة.',
+    BRANCH_SEATS_EXCEED_PLAN: 'مقاعد الفروع لا تتوافق مع مقاعد الباقة.',
+    SEAT_CHANGE_MIXED: 'لا يمكن حفظ زيادة مقاعد أحد الفروع مع خفض مقاعد فرع آخر في الوقت نفسه.',
+    BRANCH_NOT_IN_NURSERY: 'أحد الفروع لا يتبع هذه الحضانة.',
+    NO_SCHEDULED_CHANGE: 'لا يوجد تغيير مجدول لإلغائه.',
+    PLAN_CHANGE_SCHEDULED: 'هناك تغيير مجدول في المقاعد بالفعل. ألغِه أولًا ثم غيّر المقاعد.',
+
+    INVOICE_EXISTS: 'توجد فاتورة بالفعل لهذه الحضانة وفترة الفوترة.',
+    INVOICE_LOCKED: 'هذه الفاتورة مقفلة ولا يمكن إجراء هذا التغيير عليها.',
+    INVOICE_NOT_DRAFT: 'لم تعد هذه الفاتورة مسودة.',
+    INVOICE_NOT_ISSUED: 'لا يمكن تنفيذ هذا الإجراء إلا على فاتورة معتمدة.',
+    NOTHING_TO_BILL: 'الإجمالي 0، فلا يوجد ما يُفوتر. احذف المسودة أو صحّح بنودها.',
+    NURSERY_NOT_ELIGIBLE: 'هذه الحضانة لا تعمل حاليًا، لذا لا يمكن فوترتها.',
+    INVALID_INVOICE_ITEM: 'أحد البنود غير مسموح به. راجع البنود وحاول مرة أخرى.',
+    INVALID_DUE_DATE: 'لا يمكن أن يكون تاريخ الاستحقاق قبل اليوم.',
+
+    PURGE_CONFIRM_MISMATCH: 'الاسم الذي كتبته غير مطابق.',
+    RECORD_NOT_DELETED: 'لم يعد هذا السجل محذوفًا، لذا لا يمكن حذفه نهائيًا.',
+    RECORD_PURGED: 'تم حذف هذا السجل نهائيًا بالفعل.',
   },
 };
 
@@ -422,6 +522,10 @@ export const ValidationErrorCodes: readonly string[] = [
   'CLASS_BRANCH_MISMATCH',
   'SHIFT_NURSERY_MISMATCH',
   'EMPTY_STUDENTS',
+  // SUBSCRIPTION_INVALID: a student or subscription field that breaks a rule (`details` names it
+  // for the dashboard's form). INVALID_MONTH: the invoice review's month is not YYYY-MM.
+  'SUBSCRIPTION_INVALID',
+  'INVALID_MONTH',
 ];
 
 export function fillFeedback(template: string, vars: Record<string, string>): string {
