@@ -168,6 +168,12 @@ const en = {
     EMAIL_TAKEN: 'This email is already in use.',
     PARENT_ALREADY_LINKED: 'This guardian is already linked to this student.',
     KEY_CONFLICT: 'Someone else changed this at the same time. Reload and try again.',
+    // Backend #249 (2026-11-09): one entry per child, activity and minute; a
+    // move onto a taken minute is refused with 409.
+    SCHEDULE_DUPLICATE:
+      'This child already has this activity at that time. Change the time, or edit the entry that is there.',
+    // Same text as the dashboard's locked Repeatable switch.
+    ACTIVITY_SHARED: 'This status is shared with other nurseries. Ask Uprise to change it.',
   },
 };
 
@@ -328,6 +334,8 @@ const ar: Catalogue = {
     EMAIL_TAKEN: 'هذا البريد الإلكتروني مستخدم بالفعل.',
     PARENT_ALREADY_LINKED: 'هذا الولي مرتبط بالفعل بهذا الطالب.',
     KEY_CONFLICT: 'قام شخص آخر بتغيير هذا في الوقت نفسه. أعد التحميل وحاول مرة أخرى.',
+    SCHEDULE_DUPLICATE: 'هذا النشاط مسجّل لهذا الطفل في هذا الوقت بالفعل. غيّر الوقت أو عدّل الإدخال الموجود.',
+    ACTIVITY_SHARED: 'هذه الحالة مشتركة مع حضانات أخرى. اطلب من Uprise تغييرها.',
   },
 };
 

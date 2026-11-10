@@ -70,6 +70,30 @@ test('an unknown code falls back by status, then to the action message', () => {
   assert.equal(feedbackForError('ar', {}, 'delete', 'album'), 'تعذّر حذف الألبوم. حاول مرة أخرى.');
 });
 
+// Repeatable activities (backend #249, 2026-11-09): moving a child's entry onto
+// a minute that child already has for the activity answers 409
+// SCHEDULE_DUPLICATE, and an owner flipping Repeatable on a status other
+// nurseries use answers 403 ACTIVITY_SHARED. Without their own text the first
+// read "Couldn't save the schedule. Try again." and a teacher retried forever.
+test('a duplicate schedule minute and a shared status say what happened, in both languages', () => {
+  assert.equal(
+    feedbackForError('en', { code: 'SCHEDULE_DUPLICATE', status: 409 }, 'save', 'schedule'),
+    'This child already has this activity at that time. Change the time, or edit the entry that is there.',
+  );
+  assert.equal(
+    feedbackForError('ar', { code: 'SCHEDULE_DUPLICATE', status: 409 }, 'save', 'schedule'),
+    'هذا النشاط مسجّل لهذا الطفل في هذا الوقت بالفعل. غيّر الوقت أو عدّل الإدخال الموجود.',
+  );
+  assert.equal(
+    feedbackForError('en', { code: 'ACTIVITY_SHARED', status: 403 }, 'update', 'activity'),
+    'This status is shared with other nurseries. Ask Uprise to change it.',
+  );
+  assert.equal(
+    feedbackForError('ar', { code: 'ACTIVITY_SHARED', status: 403 }, 'update', 'activity'),
+    'هذه الحالة مشتركة مع حضانات أخرى. اطلب من Uprise تغييرها.',
+  );
+});
+
 test('a code named like an Object.prototype key is not a known code', () => {
   const text = feedbackForError('en', { code: 'constructor', status: 400 }, 'save', 'album');
   assert.equal(text, "Couldn't save the album. Try again.");

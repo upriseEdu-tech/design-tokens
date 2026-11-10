@@ -1,5 +1,10 @@
 # Changelog
 
+## [Unreleased]
+
+### Added
+- Error text for the two codes the repeatable-activities work added to the backend (#249, 2026-11-09), in English and Arabic: `SCHEDULE_DUPLICATE` (409: a child's entry moved onto a minute that child already has for the activity) and `ACTIVITY_SHARED` (403: an owner flipping Repeatable on a status other nurseries use; the same words as the dashboard's locked switch). Until now the first read "Couldn't save the schedule. Try again."
+
 ## [0.8.1] - 2026-10-27
 
 ### Added
